@@ -25,6 +25,7 @@ import { Route as PaymentRouteImport } from './routes/payment'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AddressesNewRouteImport } from './routes/addresses.new'
 import { Route as CategoryKeyRouteImport } from './routes/category.$key'
+import { Route as OrderIdRouteImport } from './routes/order.$id'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 import { Route as TrackIdRouteImport } from './routes/track.$id'
 
@@ -108,6 +109,11 @@ const CategoryKeyRoute = CategoryKeyRouteImport.update({
   path: '/category/$key',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrderIdRoute = OrderIdRouteImport.update({
+  id: '/order/$id',
+  path: '/order/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductIdRoute = ProductIdRouteImport.update({
   id: '/product/$id',
   path: '/product/$id',
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
+  '/order/$id': typeof OrderIdRoute
   '/product/$id': typeof ProductIdRoute
   '/track/$id': typeof TrackIdRoute
 }
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
+  '/order/$id': typeof OrderIdRoute
   '/product/$id': typeof ProductIdRoute
   '/track/$id': typeof TrackIdRoute
 }
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
+  '/order/$id': typeof OrderIdRoute
   '/product/$id': typeof ProductIdRoute
   '/track/$id': typeof TrackIdRoute
 }
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/addresses/new'
     | '/category/$key'
+    | '/order/$id'
     | '/product/$id'
     | '/track/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/addresses/new'
     | '/category/$key'
+    | '/order/$id'
     | '/product/$id'
     | '/track/$id'
   id:
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/addresses/new'
     | '/category/$key'
+    | '/order/$id'
     | '/product/$id'
     | '/track/$id'
   fileRoutesById: FileRoutesById
@@ -259,6 +271,7 @@ export interface RootRouteChildren {
   PaymentRoute: typeof PaymentRoute
   SearchRoute: typeof SearchRoute
   CategoryKeyRoute: typeof CategoryKeyRoute
+  OrderIdRoute: typeof OrderIdRoute
   ProductIdRoute: typeof ProductIdRoute
   TrackIdRoute: typeof TrackIdRoute
 }
@@ -377,6 +390,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategoryKeyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/order/$id': {
+      id: '/order/$id'
+      path: '/order/$id'
+      fullPath: '/order/$id'
+      preLoaderRoute: typeof OrderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/product/$id': {
       id: '/product/$id'
       path: '/product/$id'
@@ -422,6 +442,7 @@ const rootRouteChildren: RootRouteChildren = {
   PaymentRoute: PaymentRoute,
   SearchRoute: SearchRoute,
   CategoryKeyRoute: CategoryKeyRoute,
+  OrderIdRoute: OrderIdRoute,
   ProductIdRoute: ProductIdRoute,
   TrackIdRoute: TrackIdRoute,
 }
