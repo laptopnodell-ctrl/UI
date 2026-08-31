@@ -13,9 +13,9 @@ const titles: Record<CategoryKey, { title: string; subtitle: string }> = {
 };
 
 export const Route = createFileRoute("/category/$key")({
-  validateSearch: (s: Record<string, unknown>) => ({
-    sub: typeof s.sub === "string" ? s.sub : undefined,
-  }),
+  validateSearch: (s: Record<string, unknown>): { sub?: string } =>
+    typeof s["sub"] === "string" ? { sub: s["sub"] } : {},
+
   head: ({ params }) => {
     const key = (params.key as CategoryKey) in titles ? (params.key as CategoryKey) : "restaurant";
     const meta = titles[key];
