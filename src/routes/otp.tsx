@@ -4,8 +4,9 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/otp")({
   validateSearch: (search: Record<string, unknown>) => ({
-    phone: typeof search.phone === "string" ? search.phone : "",
+    phone: typeof search["phone"] === "string" ? (search["phone"] as string) : "",
   }),
+
   head: () => ({
     meta: [
       { title: "Verify OTP — Vino Tasty Hub" },
