@@ -22,6 +22,7 @@ import { Route as OrderSuccessRouteImport } from './routes/order-success'
 import { Route as OrdersRouteImport } from './routes/orders'
 import { Route as OtpRouteImport } from './routes/otp'
 import { Route as PaymentRouteImport } from './routes/payment'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AddressesNewRouteImport } from './routes/addresses.new'
 import { Route as CategoryKeyRouteImport } from './routes/category.$key'
@@ -94,6 +95,11 @@ const PaymentRoute = PaymentRouteImport.update({
   path: '/payment',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/orders': typeof OrdersRoute
   '/otp': typeof OtpRoute
   '/payment': typeof PaymentRoute
+  '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
@@ -160,6 +167,7 @@ export interface FileRoutesByTo {
   '/orders': typeof OrdersRoute
   '/otp': typeof OtpRoute
   '/payment': typeof PaymentRoute
+  '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   '/orders': typeof OrdersRoute
   '/otp': typeof OtpRoute
   '/payment': typeof PaymentRoute
+  '/profile': typeof ProfileRoute
   '/search': typeof SearchRoute
   '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
@@ -205,6 +214,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/otp'
     | '/payment'
+    | '/profile'
     | '/search'
     | '/addresses/new'
     | '/category/$key'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/otp'
     | '/payment'
+    | '/profile'
     | '/search'
     | '/addresses/new'
     | '/category/$key'
@@ -247,6 +258,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/otp'
     | '/payment'
+    | '/profile'
     | '/search'
     | '/addresses/new'
     | '/category/$key'
@@ -269,6 +281,7 @@ export interface RootRouteChildren {
   OrdersRoute: typeof OrdersRoute
   OtpRoute: typeof OtpRoute
   PaymentRoute: typeof PaymentRoute
+  ProfileRoute: typeof ProfileRoute
   SearchRoute: typeof SearchRoute
   CategoryKeyRoute: typeof CategoryKeyRoute
   OrderIdRoute: typeof OrderIdRoute
@@ -369,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PaymentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -440,6 +460,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrdersRoute: OrdersRoute,
   OtpRoute: OtpRoute,
   PaymentRoute: PaymentRoute,
+  ProfileRoute: ProfileRoute,
   SearchRoute: SearchRoute,
   CategoryKeyRoute: CategoryKeyRoute,
   OrderIdRoute: OrderIdRoute,
