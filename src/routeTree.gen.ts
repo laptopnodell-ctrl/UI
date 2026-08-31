@@ -18,6 +18,7 @@ import { Route as CouponsRouteImport } from './routes/coupons'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as OrderSuccessRouteImport } from './routes/order-success'
 import { Route as OrdersRouteImport } from './routes/orders'
@@ -74,6 +75,11 @@ const HomeRoute = HomeRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -147,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof FavoritesRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRoute
   '/onboarding': typeof OnboardingRoute
   '/order-success': typeof OrderSuccessRoute
   '/orders': typeof OrdersRoute
@@ -170,6 +177,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof FavoritesRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRoute
   '/onboarding': typeof OnboardingRoute
   '/order-success': typeof OrderSuccessRoute
   '/orders': typeof OrdersRoute
@@ -194,6 +202,7 @@ export interface FileRoutesById {
   '/favorites': typeof FavoritesRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRoute
   '/onboarding': typeof OnboardingRoute
   '/order-success': typeof OrderSuccessRoute
   '/orders': typeof OrdersRoute
@@ -219,6 +228,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/home'
     | '/login'
+    | '/notifications'
     | '/onboarding'
     | '/order-success'
     | '/orders'
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/home'
     | '/login'
+    | '/notifications'
     | '/onboarding'
     | '/order-success'
     | '/orders'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/home'
     | '/login'
+    | '/notifications'
     | '/onboarding'
     | '/order-success'
     | '/orders'
@@ -289,6 +301,7 @@ export interface RootRouteChildren {
   FavoritesRoute: typeof FavoritesRoute
   HomeRoute: typeof HomeRoute
   LoginRoute: typeof LoginRoute
+  NotificationsRoute: typeof NotificationsRoute
   OnboardingRoute: typeof OnboardingRoute
   OrderSuccessRoute: typeof OrderSuccessRoute
   OrdersRoute: typeof OrdersRoute
@@ -365,6 +378,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -476,6 +496,7 @@ const rootRouteChildren: RootRouteChildren = {
   FavoritesRoute: FavoritesRoute,
   HomeRoute: HomeRoute,
   LoginRoute: LoginRoute,
+  NotificationsRoute: NotificationsRoute,
   OnboardingRoute: OnboardingRoute,
   OrderSuccessRoute: OrderSuccessRoute,
   OrdersRoute: OrdersRoute,
