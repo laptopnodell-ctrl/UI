@@ -19,6 +19,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as OtpRouteImport } from './routes/otp'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as AddressesNewRouteImport } from './routes/addresses.new'
 import { Route as CategoryKeyRouteImport } from './routes/category.$key'
 import { Route as ProductIdRouteImport } from './routes/product.$id'
 
@@ -72,6 +73,11 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AddressesNewRoute = AddressesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AddressesRoute,
+} as any)
 const CategoryKeyRoute = CategoryKeyRouteImport.update({
   id: '/category/$key',
   path: '/category/$key',
@@ -85,7 +91,7 @@ const ProductIdRoute = ProductIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/addresses': typeof AddressesRoute
+  '/addresses': typeof AddressesRouteWithChildren
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/coupons': typeof CouponsRoute
@@ -94,12 +100,13 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/otp': typeof OtpRoute
   '/search': typeof SearchRoute
+  '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
   '/product/$id': typeof ProductIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/addresses': typeof AddressesRoute
+  '/addresses': typeof AddressesRouteWithChildren
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/coupons': typeof CouponsRoute
@@ -108,13 +115,14 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/otp': typeof OtpRoute
   '/search': typeof SearchRoute
+  '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
   '/product/$id': typeof ProductIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/addresses': typeof AddressesRoute
+  '/addresses': typeof AddressesRouteWithChildren
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
   '/coupons': typeof CouponsRoute
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/otp': typeof OtpRoute
   '/search': typeof SearchRoute
+  '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
   '/product/$id': typeof ProductIdRoute
 }
@@ -139,6 +148,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/otp'
     | '/search'
+    | '/addresses/new'
     | '/category/$key'
     | '/product/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -153,6 +163,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/otp'
     | '/search'
+    | '/addresses/new'
     | '/category/$key'
     | '/product/$id'
   id:
@@ -167,13 +178,14 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/otp'
     | '/search'
+    | '/addresses/new'
     | '/category/$key'
     | '/product/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AddressesRoute: typeof AddressesRoute
+  AddressesRoute: typeof AddressesRouteWithChildren
   CartRoute: typeof CartRoute
   CategoriesRoute: typeof CategoriesRoute
   CouponsRoute: typeof CouponsRoute
@@ -258,6 +270,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/addresses/new': {
+      id: '/addresses/new'
+      path: '/new'
+      fullPath: '/addresses/new'
+      preLoaderRoute: typeof AddressesNewRouteImport
+      parentRoute: typeof AddressesRoute
+    }
     '/category/$key': {
       id: '/category/$key'
       path: '/category/$key'
@@ -275,9 +294,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AddressesRouteChildren {
+  AddressesNewRoute: typeof AddressesNewRoute
+}
+
+const AddressesRouteChildren: AddressesRouteChildren = {
+  AddressesNewRoute: AddressesNewRoute,
+}
+
+const AddressesRouteWithChildren = AddressesRoute._addFileChildren(
+  AddressesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AddressesRoute: AddressesRoute,
+  AddressesRoute: AddressesRouteWithChildren,
   CartRoute: CartRoute,
   CategoriesRoute: CategoriesRoute,
   CouponsRoute: CouponsRoute,
