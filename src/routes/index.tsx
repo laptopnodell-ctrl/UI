@@ -1,24 +1,53 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { img } from "@/lib/vino-images";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Vino Tasty Hub — Restaurant • Bakery • Tea" },
+      {
+        name: "description",
+        content:
+          "Vino Tasty Hub delivers biryani, bakery favourites and fresh tea across Kochi in minutes.",
+      },
+      { property: "og:title", content: "Vino Tasty Hub — Restaurant • Bakery • Tea" },
+      {
+        property: "og:description",
+        content: "Order restaurant meals, bakery treats and hot tea from Vino Tasty Hub.",
+      },
+    ],
+  }),
+  component: Splash,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Splash() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const seen = localStorage.getItem("vino-onboarded");
+    const t = setTimeout(() => {
+      navigate({ to: seen ? "/home" : "/onboarding" });
+    }, 1900);
+    return () => clearTimeout(t);
+  }, [navigate]);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
+    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col items-center justify-center bg-background px-8">
       <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
+        src={img.logo}
+        alt="Vino Tasty Hub"
+        className="h-20 w-auto animate-in fade-in zoom-in duration-700"
       />
+      <p className="mt-4 text-sm font-semibold tracking-[0.18em] text-primary-deep uppercase">
+        Restaurant • Bakery • Tea
+      </p>
+      <div className="mt-12 h-1 w-32 overflow-hidden rounded-full bg-secondary">
+        <div className="h-full w-1/2 animate-pulse rounded-full bg-primary" />
+      </div>
+      <Link to="/home" className="mt-8 text-xs font-semibold text-muted-foreground">
+        Skip
+      </Link>
     </div>
   );
 }
