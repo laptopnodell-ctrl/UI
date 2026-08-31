@@ -15,6 +15,7 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as OtpRouteImport } from './routes/otp'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as CategoryKeyRouteImport } from './routes/category.$key'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const OtpRoute = OtpRouteImport.update({
   path: '/otp',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CategoryKeyRoute = CategoryKeyRouteImport.update({
   id: '/category/$key',
   path: '/category/$key',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/otp': typeof OtpRoute
+  '/search': typeof SearchRoute
   '/category/$key': typeof CategoryKeyRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/otp': typeof OtpRoute
+  '/search': typeof SearchRoute
   '/category/$key': typeof CategoryKeyRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/otp': typeof OtpRoute
+  '/search': typeof SearchRoute
   '/category/$key': typeof CategoryKeyRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/otp'
+    | '/search'
     | '/category/$key'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/otp'
+    | '/search'
     | '/category/$key'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/otp'
+    | '/search'
     | '/category/$key'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
   OtpRoute: typeof OtpRoute
+  SearchRoute: typeof SearchRoute
   CategoryKeyRoute: typeof CategoryKeyRoute
 }
 
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OtpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/category/$key': {
       id: '/category/$key'
       path: '/category/$key'
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,
   OtpRoute: OtpRoute,
+  SearchRoute: SearchRoute,
   CategoryKeyRoute: CategoryKeyRoute,
 }
 export const routeTree = rootRouteImport
