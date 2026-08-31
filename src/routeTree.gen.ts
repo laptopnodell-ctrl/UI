@@ -19,6 +19,7 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as OtpRouteImport } from './routes/otp'
+import { Route as PaymentRouteImport } from './routes/payment'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AddressesNewRouteImport } from './routes/addresses.new'
 import { Route as CategoryKeyRouteImport } from './routes/category.$key'
@@ -74,6 +75,11 @@ const OtpRoute = OtpRouteImport.update({
   path: '/otp',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PaymentRoute = PaymentRouteImport.update({
+  id: '/payment',
+  path: '/payment',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/otp': typeof OtpRoute
+  '/payment': typeof PaymentRoute
   '/search': typeof SearchRoute
   '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/otp': typeof OtpRoute
+  '/payment': typeof PaymentRoute
   '/search': typeof SearchRoute
   '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
   '/otp': typeof OtpRoute
+  '/payment': typeof PaymentRoute
   '/search': typeof SearchRoute
   '/addresses/new': typeof AddressesNewRoute
   '/category/$key': typeof CategoryKeyRoute
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/otp'
+    | '/payment'
     | '/search'
     | '/addresses/new'
     | '/category/$key'
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/otp'
+    | '/payment'
     | '/search'
     | '/addresses/new'
     | '/category/$key'
@@ -189,6 +200,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/onboarding'
     | '/otp'
+    | '/payment'
     | '/search'
     | '/addresses/new'
     | '/category/$key'
@@ -206,6 +218,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
   OtpRoute: typeof OtpRoute
+  PaymentRoute: typeof PaymentRoute
   SearchRoute: typeof SearchRoute
   CategoryKeyRoute: typeof CategoryKeyRoute
   ProductIdRoute: typeof ProductIdRoute
@@ -283,6 +296,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OtpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/payment': {
+      id: '/payment'
+      path: '/payment'
+      fullPath: '/payment'
+      preLoaderRoute: typeof PaymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -337,6 +357,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,
   OtpRoute: OtpRoute,
+  PaymentRoute: PaymentRoute,
   SearchRoute: SearchRoute,
   CategoryKeyRoute: CategoryKeyRoute,
   ProductIdRoute: ProductIdRoute,
