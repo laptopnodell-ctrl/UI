@@ -20,6 +20,7 @@ import { Route as HelpRouteImport } from './routes/help'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as OffersRouteImport } from './routes/offers'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as OrderSuccessRouteImport } from './routes/order-success'
 import { Route as OrdersRouteImport } from './routes/orders'
@@ -86,6 +87,11 @@ const LoginRoute = LoginRouteImport.update({
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OffersRoute = OffersRouteImport.update({
+  id: '/offers',
+  path: '/offers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -161,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
+  '/offers': typeof OffersRoute
   '/onboarding': typeof OnboardingRoute
   '/order-success': typeof OrderSuccessRoute
   '/orders': typeof OrdersRoute
@@ -186,6 +193,7 @@ export interface FileRoutesByTo {
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
+  '/offers': typeof OffersRoute
   '/onboarding': typeof OnboardingRoute
   '/order-success': typeof OrderSuccessRoute
   '/orders': typeof OrdersRoute
@@ -212,6 +220,7 @@ export interface FileRoutesById {
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
+  '/offers': typeof OffersRoute
   '/onboarding': typeof OnboardingRoute
   '/order-success': typeof OrderSuccessRoute
   '/orders': typeof OrdersRoute
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/login'
     | '/notifications'
+    | '/offers'
     | '/onboarding'
     | '/order-success'
     | '/orders'
@@ -264,6 +274,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/login'
     | '/notifications'
+    | '/offers'
     | '/onboarding'
     | '/order-success'
     | '/orders'
@@ -289,6 +300,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/login'
     | '/notifications'
+    | '/offers'
     | '/onboarding'
     | '/order-success'
     | '/orders'
@@ -315,6 +327,7 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRoute
   LoginRoute: typeof LoginRoute
   NotificationsRoute: typeof NotificationsRoute
+  OffersRoute: typeof OffersRoute
   OnboardingRoute: typeof OnboardingRoute
   OrderSuccessRoute: typeof OrderSuccessRoute
   OrdersRoute: typeof OrdersRoute
@@ -405,6 +418,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/offers': {
+      id: '/offers'
+      path: '/offers'
+      fullPath: '/offers'
+      preLoaderRoute: typeof OffersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -518,6 +538,7 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRoute,
   LoginRoute: LoginRoute,
   NotificationsRoute: NotificationsRoute,
+  OffersRoute: OffersRoute,
   OnboardingRoute: OnboardingRoute,
   OrderSuccessRoute: OrderSuccessRoute,
   OrdersRoute: OrdersRoute,
