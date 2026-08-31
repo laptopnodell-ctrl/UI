@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AddressesRouteImport } from './routes/addresses'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as CategoriesRouteImport } from './routes/categories'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CouponsRouteImport } from './routes/coupons'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as LoginRouteImport } from './routes/login'
@@ -41,6 +42,11 @@ const CartRoute = CartRouteImport.update({
 const CategoriesRoute = CategoriesRouteImport.update({
   id: '/categories',
   path: '/categories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CouponsRoute = CouponsRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/addresses': typeof AddressesRouteWithChildren
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
+  '/checkout': typeof CheckoutRoute
   '/coupons': typeof CouponsRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/addresses': typeof AddressesRouteWithChildren
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
+  '/checkout': typeof CheckoutRoute
   '/coupons': typeof CouponsRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/addresses': typeof AddressesRouteWithChildren
   '/cart': typeof CartRoute
   '/categories': typeof CategoriesRoute
+  '/checkout': typeof CheckoutRoute
   '/coupons': typeof CouponsRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/addresses'
     | '/cart'
     | '/categories'
+    | '/checkout'
     | '/coupons'
     | '/home'
     | '/login'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/addresses'
     | '/cart'
     | '/categories'
+    | '/checkout'
     | '/coupons'
     | '/home'
     | '/login'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/addresses'
     | '/cart'
     | '/categories'
+    | '/checkout'
     | '/coupons'
     | '/home'
     | '/login'
@@ -188,6 +200,7 @@ export interface RootRouteChildren {
   AddressesRoute: typeof AddressesRouteWithChildren
   CartRoute: typeof CartRoute
   CategoriesRoute: typeof CategoriesRoute
+  CheckoutRoute: typeof CheckoutRoute
   CouponsRoute: typeof CouponsRoute
   HomeRoute: typeof HomeRoute
   LoginRoute: typeof LoginRoute
@@ -226,6 +239,13 @@ declare module '@tanstack/react-router' {
       path: '/categories'
       fullPath: '/categories'
       preLoaderRoute: typeof CategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/coupons': {
@@ -311,6 +331,7 @@ const rootRouteChildren: RootRouteChildren = {
   AddressesRoute: AddressesRouteWithChildren,
   CartRoute: CartRoute,
   CategoriesRoute: CategoriesRoute,
+  CheckoutRoute: CheckoutRoute,
   CouponsRoute: CouponsRoute,
   HomeRoute: HomeRoute,
   LoginRoute: LoginRoute,
