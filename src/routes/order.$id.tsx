@@ -18,7 +18,7 @@ export const Route = createFileRoute("/order/$id")({
 
 function OrderDetail() {
   const { id } = Route.useParams();
-  const order = pastOrders.find((o) => o.id === id) ?? pastOrders[0];
+  const order = pastOrders.find((o) => o.id === id) ?? pastOrders[0]!;
   const { addToCart } = useVino();
 
   const itemTotal = order.items.reduce((s, it) => {

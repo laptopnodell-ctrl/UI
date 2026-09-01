@@ -25,7 +25,7 @@ const steps = [
 
 function Track() {
   const { id } = Route.useParams();
-  const order = pastOrders.find((o) => o.id === id) ?? pastOrders[0];
+  const order = pastOrders.find((o) => o.id === id) ?? pastOrders[0]!;
   const [stage, setStage] = useState(1);
 
   useEffect(() => {
