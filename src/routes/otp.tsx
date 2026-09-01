@@ -42,8 +42,10 @@ function Otp() {
   const verify = () => {
     localStorage.setItem("vino-onboarded", "1");
     toast.success("Number verified");
-    navigate({ to: "/home" });
+    const savedAddress = localStorage.getItem("vino_default_address");
+    navigate({ to: savedAddress ? "/home" : "/location" });
   };
+
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-background px-6 pt-16 pb-10">
