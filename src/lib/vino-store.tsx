@@ -98,6 +98,7 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [addresses, setAddresses] = useState<Address[]>(defaultAddresses);
   const [selectedAddressId, setSelectedAddressId] = useState("addr-home");
+  const [defaultAddressId, setDefaultAddressId] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [instructions, setInstructionsState] = useState("");
 
@@ -113,11 +114,14 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
         if (typeof s.couponCode === "string" || s.couponCode === null) setCouponCode(s.couponCode);
         if (typeof s.instructions === "string") setInstructionsState(s.instructions);
       }
+      const def = localStorage.getItem(DEFAULT_ADDRESS_KEY);
+      if (def) setDefaultAddressId(JSON.parse(def).id ?? null);
     } catch {
       /* ignore corrupt storage */
     }
     setHydrated(true);
   }, []);
+
 
   useEffect(() => {
     if (!hydrated) return;
