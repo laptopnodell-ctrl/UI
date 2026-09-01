@@ -18,6 +18,7 @@ import { Route as CouponsRouteImport } from './routes/coupons'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as HomeRouteImport } from './routes/home'
+import { Route as LocationRouteImport } from './routes/location'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as OffersRouteImport } from './routes/offers'
@@ -77,6 +78,11 @@ const HelpRoute = HelpRouteImport.update({
 const HomeRoute = HomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationRoute = LocationRouteImport.update({
+  id: '/location',
+  path: '/location',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -165,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof FavoritesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/location': typeof LocationRoute
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
   '/offers': typeof OffersRoute
@@ -191,6 +198,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof FavoritesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/location': typeof LocationRoute
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
   '/offers': typeof OffersRoute
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/favorites': typeof FavoritesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/location': typeof LocationRoute
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
   '/offers': typeof OffersRoute
@@ -246,6 +255,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/help'
     | '/home'
+    | '/location'
     | '/login'
     | '/notifications'
     | '/offers'
@@ -272,6 +282,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/help'
     | '/home'
+    | '/location'
     | '/login'
     | '/notifications'
     | '/offers'
@@ -298,6 +309,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/help'
     | '/home'
+    | '/location'
     | '/login'
     | '/notifications'
     | '/offers'
@@ -325,6 +337,7 @@ export interface RootRouteChildren {
   FavoritesRoute: typeof FavoritesRoute
   HelpRoute: typeof HelpRoute
   HomeRoute: typeof HomeRoute
+  LocationRoute: typeof LocationRoute
   LoginRoute: typeof LoginRoute
   NotificationsRoute: typeof NotificationsRoute
   OffersRoute: typeof OffersRoute
@@ -404,6 +417,13 @@ declare module '@tanstack/react-router' {
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/location': {
+      id: '/location'
+      path: '/location'
+      fullPath: '/location'
+      preLoaderRoute: typeof LocationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -536,6 +556,7 @@ const rootRouteChildren: RootRouteChildren = {
   FavoritesRoute: FavoritesRoute,
   HelpRoute: HelpRoute,
   HomeRoute: HomeRoute,
+  LocationRoute: LocationRoute,
   LoginRoute: LoginRoute,
   NotificationsRoute: NotificationsRoute,
   OffersRoute: OffersRoute,

@@ -24,9 +24,14 @@ function Coupons() {
 
   const apply = (c: string) => {
     const found = coupons.find((x) => x.code.toLowerCase() === c.trim().toLowerCase());
-    if (!found) return toast.error("Invalid coupon code");
-    if (bill.itemTotal < found.minOrder)
-      return toast.error(`Add items worth ${inr(found.minOrder - bill.itemTotal)} more`);
+    if (!found) {
+      toast.error("Invalid coupon code");
+      return;
+    }
+    if (bill.itemTotal < found.minOrder) {
+      toast.error(`Add items worth ${inr(found.minOrder - bill.itemTotal)} more`);
+      return;
+    }
     applyCoupon(found.code);
     toast.success(`${found.code} applied — you saved ${inr(found.discount)}`);
     navigate({ to: "/cart" });

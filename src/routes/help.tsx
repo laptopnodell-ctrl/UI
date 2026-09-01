@@ -35,7 +35,7 @@ const faqs = [
 ];
 
 function Help() {
-  const [open, setOpen] = useState<string | null>(faqs[0].q);
+  const [open, setOpen] = useState<string | null>(faqs[0]?.q ?? null);
 
   return (
     <Screen padBottom={false}>

@@ -18,16 +18,18 @@ export const Route = createFileRoute("/addresses")({
 const icons = { Home: "home", Work: "work", Other: "location_on" } as const;
 
 function Addresses() {
-  const { addresses, selectedAddressId, selectAddress, removeAddress } = useVino();
+  const { addresses, selectedAddressId, defaultAddressId, selectAddress, setDefaultAddress, removeAddress } =
+    useVino();
 
   return (
     <Screen>
-      <TopBar title="Delivery Address" back="/checkout" />
+      <TopBar title="Delivery Address" back="/home" />
 
       {addresses.length ? (
         <div className="flex flex-col gap-3 px-4 pt-4">
           {addresses.map((a) => {
             const active = a.id === selectedAddressId;
+            const isDefault = a.id === defaultAddressId;
             return (
               <article
                 key={a.id}
@@ -42,9 +44,17 @@ function Addresses() {
                     <Icon name={icons[a.label]} className="text-lg" />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-bold text-foreground">{a.label}</span>
+                    <span className="flex items-center gap-2">
+                      <span className="text-sm font-bold text-foreground">{a.label}</span>
+                      {isDefault ? (
+                        <span className="rounded-full bg-primary/15 px-2 py-0.5 text-[10px] font-bold text-primary-deep">
+                          DEFAULT
+                        </span>
+                      ) : null}
+                    </span>
                     <span className="mt-0.5 block text-xs text-muted-foreground">
-                      {a.line1}, {a.line2}, {a.city} {a.pin}
+                      {a.line1}, {a.line2}
+                      {a.landmark ? `, ${a.landmark}` : ""}, {a.city} {a.pin}
                     </span>
                     <span className="mt-1 block text-xs font-semibold text-muted-foreground">
                       {a.name} · {a.phone}
@@ -63,6 +73,18 @@ function Addresses() {
                   >
                     EDIT
                   </Link>
+                  {isDefault ? null : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setDefaultAddress(a.id);
+                        toast.success("Set as default address");
+                      }}
+                      className="text-xs font-bold text-primary-deep"
+                    >
+                      SET DEFAULT
+                    </button>
+                  )}
                   <button
                     type="button"
                     onClick={() => {
@@ -79,6 +101,7 @@ function Addresses() {
           })}
         </div>
       ) : (
+
         <EmptyState
           icon="location_off"
           title="No saved addresses"

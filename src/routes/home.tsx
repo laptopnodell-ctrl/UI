@@ -28,7 +28,10 @@ export const Route = createFileRoute("/home")({
 });
 
 function Home() {
-  const { bill } = useVino();
+  const { bill, addresses, defaultAddressId, selectedAddressId } = useVino();
+  const active =
+    addresses.find((a) => a.id === (defaultAddressId ?? selectedAddressId)) ?? addresses[0];
+
 
   return (
     <Screen>
@@ -63,11 +66,14 @@ function Home() {
         <p className="text-sm font-semibold text-muted-foreground">Good evening, Arjun</p>
         <Link
           to="/addresses"
-          className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 shadow-[var(--shadow-card)]"
+          className="mt-2 inline-flex max-w-full items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 shadow-[var(--shadow-card)]"
         >
           <Icon name="location_on" filled className="text-base text-primary" />
-          <span className="text-xs font-bold text-foreground">Deliver to Home, Kochi</span>
+          <span className="truncate text-xs font-bold text-foreground">
+            Deliver to {active ? `${active.label}, ${active.line2 || active.city}` : "Add address"}
+          </span>
           <Icon name="expand_more" className="text-sm text-muted-foreground" />
+
         </Link>
 
         <Link

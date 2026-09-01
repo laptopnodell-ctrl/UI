@@ -26,7 +26,7 @@ function Notifications() {
             </span>
             <div className="flex-1">
               <p className="text-sm font-bold text-foreground">{n.title}</p>
-              <p className="mt-0.5 text-xs text-muted-foreground">{n.body}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">{n.detail}</p>
               <p className="mt-1 text-[11px] font-semibold text-muted-foreground">{n.time}</p>
             </div>
           </article>

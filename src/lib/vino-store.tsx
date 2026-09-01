@@ -27,7 +27,11 @@ export type Address = {
   pin: string;
   name: string;
   phone: string;
+  landmark?: string;
+  formattedAddress?: string;
 };
+
+export const DEFAULT_ADDRESS_KEY = "vino_default_address";
 
 type Store = {
   hydrated: boolean;
@@ -35,6 +39,7 @@ type Store = {
   favorites: string[];
   addresses: Address[];
   selectedAddressId: string;
+  defaultAddressId: string | null;
   couponCode: string | null;
   instructions: string;
   addToCart: (line: Omit<CartLine, "key">) => void;
@@ -45,8 +50,10 @@ type Store = {
   addAddress: (a: Omit<Address, "id">) => string;
   removeAddress: (id: string) => void;
   selectAddress: (id: string) => void;
+  setDefaultAddress: (id: string) => void;
   applyCoupon: (code: string | null) => void;
   setInstructions: (v: string) => void;
+
   bill: {
     itemTotal: number;
     deliveryFee: number;
@@ -91,6 +98,7 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [addresses, setAddresses] = useState<Address[]>(defaultAddresses);
   const [selectedAddressId, setSelectedAddressId] = useState("addr-home");
+  const [defaultAddressId, setDefaultAddressId] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [instructions, setInstructionsState] = useState("");
 
@@ -106,11 +114,14 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
         if (typeof s.couponCode === "string" || s.couponCode === null) setCouponCode(s.couponCode);
         if (typeof s.instructions === "string") setInstructionsState(s.instructions);
       }
+      const def = localStorage.getItem(DEFAULT_ADDRESS_KEY);
+      if (def) setDefaultAddressId(JSON.parse(def).id ?? null);
     } catch {
       /* ignore corrupt storage */
     }
     setHydrated(true);
   }, []);
+
 
   useEffect(() => {
     if (!hydrated) return;
@@ -150,9 +161,25 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
     return id;
   }, []);
 
+  const setDefaultAddress = useCallback(
+    (id: string) => {
+      setDefaultAddressId(id);
+      setSelectedAddressId(id);
+      const found = addresses.find((a) => a.id === id);
+      localStorage.setItem(DEFAULT_ADDRESS_KEY, JSON.stringify({ id, address: found ?? null }));
+    },
+    [addresses],
+  );
+
   const removeAddress = useCallback((id: string) => {
     setAddresses((prev) => prev.filter((a) => a.id !== id));
+    setDefaultAddressId((prev) => {
+      if (prev !== id) return prev;
+      localStorage.removeItem(DEFAULT_ADDRESS_KEY);
+      return null;
+    });
   }, []);
+
 
   const coupon = useMemo(() => coupons.find((c) => c.code === couponCode) ?? null, [couponCode]);
 
@@ -178,6 +205,7 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
     favorites,
     addresses,
     selectedAddressId,
+    defaultAddressId,
     couponCode,
     instructions,
     addToCart,
@@ -188,6 +216,8 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
     addAddress,
     removeAddress,
     selectAddress: setSelectedAddressId,
+    setDefaultAddress,
+
     applyCoupon: setCouponCode,
     setInstructions: setInstructionsState,
     bill,

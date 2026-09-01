@@ -214,7 +214,7 @@ function ProductDetails() {
           disabled={product.unavailable}
           className="vino-cta vino-cta-press disabled:opacity-50"
           onClick={() => {
-            addToCart({ productId: product.id, qty, variant, addons, unitPrice });
+            addToCart({ productId: product.id, qty, addons, unitPrice, ...(variant ? { variant } : {}) });
             toast.success(`${product.name} added to cart`);
             navigate({ to: "/cart" });
           }}
