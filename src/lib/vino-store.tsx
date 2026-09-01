@@ -161,9 +161,25 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
     return id;
   }, []);
 
+  const setDefaultAddress = useCallback(
+    (id: string) => {
+      setDefaultAddressId(id);
+      setSelectedAddressId(id);
+      const found = addresses.find((a) => a.id === id);
+      localStorage.setItem(DEFAULT_ADDRESS_KEY, JSON.stringify({ id, address: found ?? null }));
+    },
+    [addresses],
+  );
+
   const removeAddress = useCallback((id: string) => {
     setAddresses((prev) => prev.filter((a) => a.id !== id));
+    setDefaultAddressId((prev) => {
+      if (prev !== id) return prev;
+      localStorage.removeItem(DEFAULT_ADDRESS_KEY);
+      return null;
+    });
   }, []);
+
 
   const coupon = useMemo(() => coupons.find((c) => c.code === couponCode) ?? null, [couponCode]);
 
