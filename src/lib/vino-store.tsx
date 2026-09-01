@@ -27,7 +27,11 @@ export type Address = {
   pin: string;
   name: string;
   phone: string;
+  landmark?: string;
+  formattedAddress?: string;
 };
+
+export const DEFAULT_ADDRESS_KEY = "vino_default_address";
 
 type Store = {
   hydrated: boolean;
@@ -35,6 +39,7 @@ type Store = {
   favorites: string[];
   addresses: Address[];
   selectedAddressId: string;
+  defaultAddressId: string | null;
   couponCode: string | null;
   instructions: string;
   addToCart: (line: Omit<CartLine, "key">) => void;
@@ -45,8 +50,10 @@ type Store = {
   addAddress: (a: Omit<Address, "id">) => string;
   removeAddress: (id: string) => void;
   selectAddress: (id: string) => void;
+  setDefaultAddress: (id: string) => void;
   applyCoupon: (code: string | null) => void;
   setInstructions: (v: string) => void;
+
   bill: {
     itemTotal: number;
     deliveryFee: number;
