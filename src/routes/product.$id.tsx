@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { EmptyState, Icon, Rating, Screen, StickyBar, Stepper, VegBadge } from "@/components/vino/ui";
+import { EmptyState, Icon, Screen, StickyBar, Stepper, VegBadge } from "@/components/vino/ui";
 import { getProduct, inr, products } from "@/lib/vino-data";
 import { useVino } from "@/lib/vino-store";
 import { ProductTile } from "@/components/vino/ProductCard";
@@ -67,93 +67,144 @@ function ProductDetails() {
 
   return (
     <Screen>
-      <div className="relative">
-        <img src={product.image} alt={product.name} className="h-72 w-full object-cover" />
-        <div className="absolute inset-x-0 top-0 flex justify-between p-4">
-          <Link
-            to="/categories"
-            aria-label="Go back"
-            className="grid size-10 place-items-center rounded-full bg-card/90 text-primary-deep backdrop-blur"
-          >
-            <Icon name="arrow_back" className="text-xl" />
-          </Link>
-          <button
-            type="button"
-            aria-label={fav ? "Remove from favourites" : "Add to favourites"}
-            onClick={() => toggleFavorite(product.id)}
-            className="grid size-10 place-items-center rounded-full bg-card/90 backdrop-blur"
-          >
-            <Icon
-              name="favorite"
-              filled={fav}
-              className={`text-xl ${fav ? "text-destructive" : "text-muted-foreground"}`}
-            />
-          </button>
+      {/* Framed & Rounded Hero Header Container */}
+      <div className="px-3 pt-3">
+        <div className="relative overflow-hidden rounded-3xl shadow-md">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="h-72 w-full object-cover transition-transform duration-500 hover:scale-105"
+          />
+          {/* Gradient Overlay for Readable Top Controls */}
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/70 via-black/30 to-transparent" />
+
+          {/* Top Control Buttons */}
+          <div className="absolute inset-x-0 top-0 flex justify-between p-3.5">
+            <Link
+              to="/categories"
+              aria-label="Go back"
+              className="grid size-10 place-items-center rounded-full bg-background/80 text-foreground backdrop-blur-md transition-transform active:scale-95 shadow-sm"
+            >
+              <Icon name="arrow_back" className="text-xl" />
+            </Link>
+            <button
+              type="button"
+              aria-label={fav ? "Remove from favourites" : "Add to favourites"}
+              onClick={() => toggleFavorite(product.id)}
+              className="grid size-10 place-items-center rounded-full bg-background/80 backdrop-blur-md transition-transform active:scale-95 shadow-sm"
+            >
+              <Icon
+                name="favorite"
+                filled={fav}
+                className={`text-xl ${fav ? "text-destructive" : "text-muted-foreground"}`}
+              />
+            </button>
+          </div>
+
+          {product.badge ? (
+            <span className="absolute bottom-3 left-3.5 rounded-full bg-primary/90 px-3 py-1 text-xs font-bold text-primary-foreground backdrop-blur-md shadow-sm">
+              {product.badge}
+            </span>
+          ) : null}
         </div>
       </div>
 
-      <div className="-mt-6 rounded-t-3xl bg-background px-4 pt-5">
-        <div className="flex items-start gap-2">
+      {/* Main Details Body */}
+      <div className="px-4 pt-4">
+        {/* Title & Veg Badge Vertically Centered */}
+        <div className="flex items-center gap-2.5">
           <VegBadge veg={product.veg} />
-          <h1 className="flex-1 text-[22px] leading-tight font-extrabold text-foreground">
+          <h1 className="flex-1 text-2xl font-extrabold tracking-tight text-foreground">
             {product.name}
           </h1>
         </div>
-        <div className="mt-2 flex items-center gap-3">
-          <Rating value={product.rating} reviews={product.reviews} />
+
+        {/* Rating & Meta Row */}
+        <div className="mt-2.5 flex flex-wrap items-center gap-2">
+          <div className="inline-flex items-center gap-1 rounded-full bg-secondary px-2.5 py-1 text-xs font-bold text-secondary-foreground">
+            <Icon name="star" filled className="text-sm text-primary-deep" />
+            <span>{product.rating.toFixed(1)}</span>
+            <span className="text-[11px] font-normal text-muted-foreground">({product.reviews})</span>
+          </div>
           <span className="text-xs text-muted-foreground">•</span>
-          <span className="text-xs font-semibold text-muted-foreground">
-            {product.sub} · 25–30 mins
-          </span>
+          <span className="text-xs font-semibold text-muted-foreground">{product.sub}</span>
+          <span className="text-xs text-muted-foreground">•</span>
+          <span className="text-xs font-bold text-primary-deep">25–30 mins</span>
         </div>
-        <p className="mt-1 flex items-baseline gap-2">
-          <span className="text-xl font-extrabold text-foreground">{inr(product.price + variantDelta)}</span>
+
+        {/* Price Row */}
+        <div className="mt-3 flex items-baseline gap-2.5">
+          <span className="text-2xl font-extrabold text-foreground">
+            {inr(product.price + variantDelta)}
+          </span>
           {product.mrp ? (
-            <span className="text-sm text-muted-foreground line-through">{inr(product.mrp)}</span>
+            <span className="text-sm font-semibold text-muted-foreground line-through">
+              {inr(product.mrp)}
+            </span>
           ) : null}
+          {product.mrp ? (
+            <span className="rounded-md bg-secondary px-2 py-0.5 text-[11px] font-bold text-secondary-foreground">
+              Save {inr(product.mrp - (product.price + variantDelta))}
+            </span>
+          ) : null}
+        </div>
+
+        <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
+          {product.description}
         </p>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{product.description}</p>
 
         {product.unavailable ? (
-          <div className="mt-4 rounded-2xl border border-destructive/30 bg-destructive/5 p-3 text-sm font-semibold text-destructive">
+          <div className="mt-4 rounded-2xl border border-destructive/30 bg-destructive/5 p-3.5 text-sm font-semibold text-destructive">
             Currently unavailable. Check back at the next batch.
           </div>
         ) : null}
 
+        {/* Variants Selection */}
         {product.variants ? (
           <section className="mt-6">
-            <h2 className="text-[15px] font-bold text-foreground">Choose a size</h2>
-            <div className="mt-2 flex flex-col gap-2">
-              {product.variants.map((v) => (
-                <button
-                  key={v.label}
-                  type="button"
-                  onClick={() => setVariant(v.label)}
-                  className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-sm font-semibold ${
-                    variant === v.label
-                      ? "border-primary bg-secondary text-secondary-foreground"
-                      : "border-border bg-card text-foreground"
-                  }`}
-                >
-                  <span className="flex items-center gap-2">
-                    <Icon
-                      name={variant === v.label ? "radio_button_checked" : "radio_button_unchecked"}
-                      className="text-lg text-primary-deep"
-                    />
-                    {v.label}
-                  </span>
-                  <span>{v.delta ? `+${inr(v.delta)}` : "Included"}</span>
-                </button>
-              ))}
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-bold text-foreground uppercase tracking-wider">Choose size</h2>
+              <span className="text-[11px] font-semibold text-muted-foreground">Required</span>
+            </div>
+            <div className="mt-2.5 flex flex-col gap-2">
+              {product.variants.map((v) => {
+                const isSelected = variant === v.label;
+                return (
+                  <button
+                    key={v.label}
+                    type="button"
+                    onClick={() => setVariant(v.label)}
+                    className={`flex items-center justify-between rounded-2xl border px-4 py-3.5 text-sm font-semibold transition-all ${
+                      isSelected
+                        ? "border-primary bg-secondary/70 text-secondary-foreground shadow-xs"
+                        : "border-border/80 bg-card text-foreground hover:border-primary/50"
+                    }`}
+                  >
+                    <span className="flex items-center gap-3">
+                      <Icon
+                        name={isSelected ? "radio_button_checked" : "radio_button_unchecked"}
+                        className={`text-lg ${isSelected ? "text-primary-deep" : "text-muted-foreground"}`}
+                      />
+                      {v.label}
+                    </span>
+                    <span className="font-bold text-foreground">
+                      {v.delta ? `+${inr(v.delta)}` : "Included"}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </section>
         ) : null}
 
+        {/* Addons Selection */}
         {product.addons ? (
           <section className="mt-6">
-            <h2 className="text-[15px] font-bold text-foreground">Add-ons</h2>
-            <p className="text-xs text-muted-foreground">Optional — pick as many as you like</p>
-            <div className="mt-2 flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-bold text-foreground uppercase tracking-wider">Add-ons</h2>
+              <span className="text-[11px] font-semibold text-muted-foreground">Optional</span>
+            </div>
+            <div className="mt-2.5 flex flex-col gap-2">
               {product.addons.map((a) => {
                 const on = addons.includes(a.label);
                 return (
@@ -163,18 +214,20 @@ function ProductDetails() {
                     onClick={() =>
                       setAddons(on ? addons.filter((x) => x !== a.label) : [...addons, a.label])
                     }
-                    className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-sm font-semibold ${
-                      on ? "border-primary bg-secondary text-secondary-foreground" : "border-border bg-card text-foreground"
+                    className={`flex items-center justify-between rounded-2xl border px-4 py-3.5 text-sm font-semibold transition-all ${
+                      on
+                        ? "border-primary bg-secondary/70 text-secondary-foreground shadow-xs"
+                        : "border-border/80 bg-card text-foreground hover:border-primary/50"
                     }`}
                   >
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-3">
                       <Icon
                         name={on ? "check_box" : "check_box_outline_blank"}
-                        className="text-lg text-primary-deep"
+                        className={`text-lg ${on ? "text-primary-deep" : "text-muted-foreground"}`}
                       />
                       {a.label}
                     </span>
-                    <span>+{inr(a.price)}</span>
+                    <span className="font-bold text-foreground">+{inr(a.price)}</span>
                   </button>
                 );
               })}
@@ -182,25 +235,35 @@ function ProductDetails() {
           </section>
         ) : null}
 
+        {/* Special Instructions */}
         <section className="mt-6">
-          <h2 className="text-[15px] font-bold text-foreground">Special instructions</h2>
+          <h2 className="text-sm font-bold text-foreground uppercase tracking-wider">
+            Special instructions
+          </h2>
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
             rows={3}
             placeholder="Less spicy, no onion, extra napkins..."
-            className="vino-card mt-2 w-full resize-none px-4 py-3 text-sm outline-none placeholder:text-muted-foreground"
+            className="vino-card mt-2.5 w-full resize-none px-4 py-3 text-sm outline-none transition-focus placeholder:text-muted-foreground focus:border-primary"
           />
         </section>
 
-        <section className="mt-6 flex items-center justify-between">
-          <h2 className="text-[15px] font-bold text-foreground">Quantity</h2>
+        {/* Quantity Stepper */}
+        <section className="mt-6 flex items-center justify-between rounded-2xl border border-border/80 bg-card p-4">
+          <div>
+            <h2 className="text-sm font-bold text-foreground">Quantity</h2>
+            <p className="text-xs text-muted-foreground">Select number of portions</p>
+          </div>
           <Stepper qty={qty} onChange={(n) => setQty(Math.max(1, n))} />
         </section>
 
+        {/* You May Also Like */}
         <section className="mt-8">
-          <h2 className="text-[15px] font-bold text-foreground">You may also like</h2>
-          <div className="no-scrollbar mt-3 flex gap-3 overflow-x-auto pb-1">
+          <h2 className="text-sm font-bold text-foreground uppercase tracking-wider">
+            You may also like
+          </h2>
+          <div className="no-scrollbar mt-3 flex gap-3 overflow-x-auto pb-2">
             {similar.map((p) => (
               <ProductTile key={p.id} product={p} />
             ))}

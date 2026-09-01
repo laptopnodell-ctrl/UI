@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BottomNav } from "@/components/vino/BottomNav";
-import { Icon, Screen, TopBar } from "@/components/vino/ui";
-import { getProduct, inr, pastOrders } from "@/lib/vino-data";
+import { Screen, TopBar } from "@/components/vino/ui";
+import { getProduct, inr } from "@/lib/vino-data";
+import { useVino } from "@/lib/vino-store";
 
 export const Route = createFileRoute("/orders")({
   head: () => ({
@@ -19,69 +20,88 @@ const statusStyle = {
   delivered: "bg-success/15 text-success",
   cancelled: "bg-destructive/10 text-destructive",
   "on-the-way": "bg-secondary text-primary-deep",
+  preparing: "bg-secondary text-primary-deep",
+  "order-placed": "bg-secondary text-primary-deep",
 } as const;
 
 const statusLabel = {
   delivered: "Delivered",
   cancelled: "Cancelled",
   "on-the-way": "On the way",
+  preparing: "Preparing",
+  "order-placed": "Order Placed",
 } as const;
 
 function Orders() {
+  const { orders } = useVino();
+
   return (
     <Screen>
       <TopBar title="My Orders" />
 
       <div className="flex flex-col gap-3 px-4 pt-4">
-        {pastOrders.map((o) => (
-          <article key={o.id} className="vino-card p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-bold text-foreground">#{o.id}</p>
-                <p className="text-[11px] text-muted-foreground">{o.placedAt}</p>
+        {orders.map((o) => {
+          const isActive = o.status === "preparing" || o.status === "order-placed" || o.status === "on-the-way";
+          return (
+            <article key={o.id} className="vino-card p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-bold text-foreground">#{o.id}</p>
+                  <p className="text-[11px] text-muted-foreground">{o.placedAt}</p>
+                </div>
+                <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${statusStyle[o.status]}`}>
+                  {statusLabel[o.status]}
+                </span>
               </div>
-              <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${statusStyle[o.status]}`}>
-                {statusLabel[o.status]}
-              </span>
-            </div>
 
-            <div className="mt-3 flex flex-col gap-2">
-              {o.items.map((it) => {
-                const p = getProduct(it.productId);
-                if (!p) return null;
-                return (
-                  <div key={it.productId} className="flex items-center gap-3">
-                    <img src={p.image} alt={p.name} className="size-11 rounded-lg object-cover" />
-                    <p className="flex-1 truncate text-sm font-semibold text-foreground">{p.name}</p>
-                    <span className="text-xs text-muted-foreground">x{it.qty}</span>
-                  </div>
-                );
-              })}
-            </div>
+              <div className="mt-3 flex flex-col gap-2">
+                {o.items.map((it) => {
+                  const p = getProduct(it.productId);
+                  if (!p) return null;
+                  return (
+                    <div key={it.productId} className="flex items-center gap-3">
+                      <img src={p.image} alt={p.name} className="size-11 rounded-lg object-cover" />
+                      <p className="flex-1 truncate text-sm font-semibold text-foreground">{p.name}</p>
+                      <span className="text-xs text-muted-foreground">x{it.qty}</span>
+                    </div>
+                  );
+                })}
+              </div>
 
-            <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
-              <span className="text-sm font-extrabold text-foreground">{inr(o.total)}</span>
-              <div className="flex gap-2">
-                {o.status === "on-the-way" ? (
+              <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
+                <span className="text-sm font-extrabold text-foreground">{inr(o.total)}</span>
+                <div className="flex items-center gap-2">
+                  {isActive && (
+                    <Link
+                      to="/track/$id"
+                      params={{ id: o.id }}
+                      search={{ cancel: "true" }}
+                      className="rounded-full border border-destructive/40 bg-destructive/5 px-3 py-1.5 text-xs font-bold text-destructive hover:bg-destructive/10 transition-colors"
+                    >
+                      Cancel Order
+                    </Link>
+                  )}
+                  {isActive && (
+                    <Link
+                      to="/track/$id"
+                      params={{ id: o.id }}
+                      className="rounded-full bg-primary px-4 py-1.5 text-xs font-bold text-primary-foreground shadow-xs"
+                    >
+                      TRACK
+                    </Link>
+                  )}
                   <Link
-                    to="/track/$id"
+                    to="/order/$id"
                     params={{ id: o.id }}
-                    className="rounded-full bg-primary px-4 py-2 text-xs font-bold text-primary-foreground"
+                    className="rounded-full border border-border px-3.5 py-1.5 text-xs font-bold text-foreground hover:bg-muted"
                   >
-                    TRACK
+                    DETAILS
                   </Link>
-                ) : null}
-                <Link
-                  to="/order/$id"
-                  params={{ id: o.id }}
-                  className="rounded-full border border-border px-4 py-2 text-xs font-bold text-foreground"
-                >
-                  DETAILS
-                </Link>
+                </div>
               </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
 
       <BottomNav />

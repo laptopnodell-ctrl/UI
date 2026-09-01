@@ -37,7 +37,12 @@ function Home() {
     <Screen>
       <header className="vino-surface-sticky sticky top-0 z-30 border-b border-border/60">
         <div className="flex items-center justify-between px-4 py-3">
-          <img src={img.logo} alt="Vino Tasty Hub" className="h-8 w-auto object-contain" />
+          <Link to="/home" className="flex items-center gap-2.5">
+            <img src={img.logo} alt="Vino Tasty Hub" className="h-9 w-auto object-contain" />
+            <h1 className="font-stylish text-xl font-bold tracking-tight text-primary-deep">
+              Vino Tasty Hub
+            </h1>
+          </Link>
           <div className="flex items-center gap-1">
             <Link
               to="/notifications"

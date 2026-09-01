@@ -458,21 +458,24 @@ export const offers = [
 export type PastOrder = {
   id: string;
   placedAt: string;
-  status: "delivered" | "cancelled" | "on-the-way";
+  status: "delivered" | "cancelled" | "on-the-way" | "preparing" | "order-placed";
   items: { productId: string; qty: number }[];
   total: number;
+  paymentMethod?: "online" | "cod" | undefined;
+  cancellationReason?: string | undefined;
 };
 
 export const pastOrders: PastOrder[] = [
   {
     id: "VH1045",
     placedAt: "Today, 1:20 PM",
-    status: "on-the-way",
+    status: "preparing",
     items: [
       { productId: "chicken-biryani", qty: 1 },
       { productId: "garlic-naan", qty: 2 },
     ],
     total: 340,
+    paymentMethod: "online",
   },
   {
     id: "VH1032",
@@ -483,6 +486,7 @@ export const pastOrders: PastOrder[] = [
       { productId: "masala-chai", qty: 2 },
     ],
     total: 310,
+    paymentMethod: "cod",
   },
   {
     id: "VH1019",
@@ -490,6 +494,8 @@ export const pastOrders: PastOrder[] = [
     status: "cancelled",
     items: [{ productId: "black-forest-cake", qty: 1 }],
     total: 450,
+    paymentMethod: "online",
+    cancellationReason: "Ordered by mistake",
   },
 ];
 

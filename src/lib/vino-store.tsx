@@ -7,7 +7,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { coupons, getProduct, type Coupon } from "./vino-data";
+import { coupons, getProduct, pastOrders, type Coupon, type PastOrder } from "./vino-data";
 
 export type CartLine = {
   key: string;
@@ -42,6 +42,8 @@ type Store = {
   defaultAddressId: string | null;
   couponCode: string | null;
   instructions: string;
+  orders: PastOrder[];
+  cancelOrder: (id: string, reason?: string) => void;
   addToCart: (line: Omit<CartLine, "key">) => void;
   setQty: (key: string, qty: number) => void;
   removeLine: (key: string) => void;
@@ -101,6 +103,7 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
   const [defaultAddressId, setDefaultAddressId] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [instructions, setInstructionsState] = useState("");
+  const [orders, setOrders] = useState<PastOrder[]>(pastOrders);
 
   useEffect(() => {
     try {
@@ -113,6 +116,7 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
         if (typeof s.selectedAddressId === "string") setSelectedAddressId(s.selectedAddressId);
         if (typeof s.couponCode === "string" || s.couponCode === null) setCouponCode(s.couponCode);
         if (typeof s.instructions === "string") setInstructionsState(s.instructions);
+        if (Array.isArray(s.orders) && s.orders.length) setOrders(s.orders);
       }
       const def = localStorage.getItem(DEFAULT_ADDRESS_KEY);
       if (def) setDefaultAddressId(JSON.parse(def).id ?? null);
@@ -122,14 +126,27 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
     setHydrated(true);
   }, []);
 
-
   useEffect(() => {
     if (!hydrated) return;
     localStorage.setItem(
       KEY,
-      JSON.stringify({ cart, favorites, addresses, selectedAddressId, couponCode, instructions }),
+      JSON.stringify({ cart, favorites, addresses, selectedAddressId, couponCode, instructions, orders }),
     );
-  }, [hydrated, cart, favorites, addresses, selectedAddressId, couponCode, instructions]);
+  }, [hydrated, cart, favorites, addresses, selectedAddressId, couponCode, instructions, orders]);
+
+  const cancelOrder = useCallback((id: string, reason?: string) => {
+    setOrders((prev) =>
+      prev.map((o): PastOrder =>
+        o.id === id
+          ? {
+              ...o,
+              status: "cancelled",
+              ...(reason !== undefined ? { cancellationReason: reason } : {}),
+            }
+          : o,
+      ),
+    );
+  }, []);
 
   const addToCart = useCallback((line: Omit<CartLine, "key">) => {
     const key = [line.productId, line.variant ?? "", [...line.addons].sort().join("+")].join("|");
@@ -208,6 +225,8 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
     defaultAddressId,
     couponCode,
     instructions,
+    orders,
+    cancelOrder,
     addToCart,
     setQty,
     removeLine,
