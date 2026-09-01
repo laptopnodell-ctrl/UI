@@ -205,6 +205,7 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
     favorites,
     addresses,
     selectedAddressId,
+    defaultAddressId,
     couponCode,
     instructions,
     addToCart,
@@ -215,6 +216,8 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
     addAddress,
     removeAddress,
     selectAddress: setSelectedAddressId,
+    setDefaultAddress,
+
     applyCoupon: setCouponCode,
     setInstructions: setInstructionsState,
     bill,
