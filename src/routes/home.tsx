@@ -28,7 +28,10 @@ export const Route = createFileRoute("/home")({
 });
 
 function Home() {
-  const { bill } = useVino();
+  const { bill, addresses, defaultAddressId, selectedAddressId } = useVino();
+  const active =
+    addresses.find((a) => a.id === (defaultAddressId ?? selectedAddressId)) ?? addresses[0];
+
 
   return (
     <Screen>
