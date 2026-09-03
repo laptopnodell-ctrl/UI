@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BottomNav } from "@/components/vino/BottomNav";
 import { ProductCard, ProductTile } from "@/components/vino/ProductCard";
-import { Icon, Screen, SectionTitle } from "@/components/vino/ui";
+import { Icon, Screen, SectionTitle, BrandHeading } from "@/components/vino/ui";
 import { categories, offers, popularPicks, recommended } from "@/lib/vino-data";
 import { img } from "@/lib/vino-images";
 import { useVino } from "@/lib/vino-store";
@@ -38,10 +38,8 @@ function Home() {
       <header className="vino-surface-sticky sticky top-0 z-30 border-b border-border/60">
         <div className="flex items-center justify-between px-4 py-3">
           <Link to="/home" className="flex items-center gap-2.5">
-            <img src={img.logo} alt="Vino Tasty Hub" className="h-9 w-auto object-contain" />
-            <h1 className="font-stylish text-xl font-bold tracking-tight text-primary-deep">
-              Vino Tasty Hub
-            </h1>
+            <img src={img.logo} alt="Vino Tasty Hub" className="h-10 w-auto object-contain" />
+            <BrandHeading size="md" />
           </Link>
           <div className="flex items-center gap-1">
             <Link

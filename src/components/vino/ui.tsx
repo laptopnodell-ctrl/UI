@@ -267,3 +267,51 @@ export function Row({
     </button>
   );
 }
+
+export function BrandHeading({
+  className = "",
+  size = "md",
+  showUnderline = true,
+}: {
+  className?: string;
+  size?: "sm" | "md" | "lg" | "xl";
+  showUnderline?: boolean;
+}) {
+  const fontSizes = {
+    sm: "text-xl",
+    md: "text-[26px]",
+    lg: "text-3xl",
+    xl: "text-4xl",
+  };
+
+  return (
+    <div className={`inline-flex flex-col ${className}`}>
+      <span
+        className={`${fontSizes[size]} leading-[1.1] tracking-normal font-normal text-[#4e0d18] select-none`}
+        style={{
+          fontFamily: "'Allura', 'Alex Brush', cursive",
+          WebkitFontSmoothing: "antialiased",
+        }}
+      >
+        Vino Tasty Hub
+      </span>
+      {showUnderline ? (
+        <svg
+          className="w-full text-[#4e0d18] -mt-0.5 overflow-visible pointer-events-none"
+          height="6"
+          viewBox="0 0 160 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M 1 2.2 C 45 1.8, 100 2.2, 136 2.8 C 148 3.2, 157 4.8, 156 7.2"
+            stroke="currentColor"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+          />
+        </svg>
+      ) : null}
+    </div>
+  );
+}
+
