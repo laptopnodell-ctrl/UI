@@ -126,9 +126,7 @@ function Otp() {
           We sent a 4-digit code to
         </p>
         <div className="mt-1 flex items-center justify-center gap-2">
-          <span className="text-sm font-bold text-foreground tracking-wide">
-            {formattedPhone}
-          </span>
+          <span className="text-sm font-bold text-foreground tracking-wide">{formattedPhone}</span>
           <Link
             to="/login"
             className="text-xs font-bold text-primary-deep hover:underline transition-colors ml-0.5"
@@ -168,9 +166,7 @@ function Otp() {
 
       {/* Resend Section */}
       <div className="mt-5 text-center">
-        <p className="text-xs font-medium text-muted-foreground">
-          Didn’t receive the code?
-        </p>
+        <p className="text-xs font-medium text-muted-foreground">Didn’t receive the code?</p>
         <div className="mt-1.5 min-h-6 flex items-center justify-center">
           {seconds > 0 ? (
             <p className="text-xs font-semibold text-muted-foreground">
@@ -231,4 +227,3 @@ function Otp() {
     </div>
   );
 }
-

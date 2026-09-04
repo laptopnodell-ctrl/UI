@@ -32,13 +32,16 @@ function Home() {
   const active =
     addresses.find((a) => a.id === (defaultAddressId ?? selectedAddressId)) ?? addresses[0];
 
-
   return (
     <Screen>
       <header className="vino-surface-sticky sticky top-0 z-30 border-b border-border/60 h-[60px] flex items-center px-4">
         <div className="flex w-full items-center justify-between">
           <Link to="/home" className="flex items-center gap-2.5">
-            <img src={img.logo} alt="Vino Tasty Hub" className="h-8 w-auto object-contain mix-blend-multiply shrink-0" />
+            <img
+              src={img.logo}
+              alt="Vino Tasty Hub"
+              className="h-8 w-auto object-contain mix-blend-multiply shrink-0"
+            />
             <BrandHeading size="md" />
           </Link>
           <div className="flex items-center gap-1">
@@ -76,7 +79,6 @@ function Home() {
             Deliver to {active ? `${active.label}, ${active.line2 || active.city}` : "Add address"}
           </span>
           <Icon name="expand_more" className="text-sm text-muted-foreground" />
-
         </Link>
 
         <Link
@@ -98,7 +100,9 @@ function Home() {
           <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-foreground/70 to-transparent" />
           <div className="absolute bottom-4 left-4 right-4">
             <p className="text-xs font-bold tracking-wide text-primary uppercase">Today's hero</p>
-            <h2 className="mt-1 text-xl font-extrabold text-card">Dum Biryani, straight from the pot</h2>
+            <h2 className="mt-1 text-xl font-extrabold text-card">
+              Dum Biryani, straight from the pot
+            </h2>
             <span className="mt-2 inline-flex rounded-full bg-primary px-3 py-1 text-[11px] font-bold text-primary-foreground">
               Order now · 30 mins
             </span>
@@ -119,7 +123,9 @@ function Home() {
               <img src={c.image} alt={c.title} className="h-24 w-full object-cover" />
               <div className="p-3">
                 <p className="text-sm font-bold text-foreground">{c.title}</p>
-                <p className="mt-0.5 line-clamp-1 text-[11px] text-muted-foreground">{c.subtitle}</p>
+                <p className="mt-0.5 line-clamp-1 text-[11px] text-muted-foreground">
+                  {c.subtitle}
+                </p>
               </div>
             </Link>
           ))}

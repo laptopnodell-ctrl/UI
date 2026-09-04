@@ -51,7 +51,11 @@ function Onboarding() {
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-background">
       <div className="flex justify-end px-5 pt-5">
-        <button type="button" onClick={finish} className="text-sm font-semibold text-muted-foreground">
+        <button
+          type="button"
+          onClick={finish}
+          className="text-sm font-semibold text-muted-foreground"
+        >
           Skip
         </button>
       </div>

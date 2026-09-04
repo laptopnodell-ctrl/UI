@@ -8,7 +8,10 @@ export const Route = createFileRoute("/order/$id")({
   head: ({ params }) => ({
     meta: [
       { title: `Order ${params.id} details — Vino Tasty Hub` },
-      { name: "description", content: "Invoice, items and delivery details for your Vino Tasty Hub order." },
+      {
+        name: "description",
+        content: "Invoice, items and delivery details for your Vino Tasty Hub order.",
+      },
       { property: "og:title", content: `Order ${params.id} details — Vino Tasty Hub` },
       { property: "og:description", content: "Full bill breakdown and reorder in one tap." },
     ],
@@ -68,7 +71,9 @@ function OrderDetail() {
           </div>
           <div className="flex justify-between">
             <dt className="text-muted-foreground">Delivery Fee</dt>
-            <dd className="font-semibold text-foreground">{deliveryFee ? inr(deliveryFee) : "FREE"}</dd>
+            <dd className="font-semibold text-foreground">
+              {deliveryFee ? inr(deliveryFee) : "FREE"}
+            </dd>
           </div>
           <div className="flex justify-between">
             <dt className="text-muted-foreground">Taxes</dt>

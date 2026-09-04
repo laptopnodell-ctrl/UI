@@ -6,7 +6,10 @@ export const Route = createFileRoute("/offers")({
   head: () => ({
     meta: [
       { title: "Offers & deals — Vino Tasty Hub" },
-      { name: "description", content: "Today's Vino Tasty Hub deals on biryani, bakery treats and tea." },
+      {
+        name: "description",
+        content: "Today's Vino Tasty Hub deals on biryani, bakery treats and tea.",
+      },
       { property: "og:title", content: "Offers & deals — Vino Tasty Hub" },
       { property: "og:description", content: "Grab discounts before they expire." },
     ],
@@ -29,7 +32,10 @@ function Offers() {
                 <span className="rounded-lg border border-dashed border-primary bg-secondary px-2.5 py-1 text-xs font-extrabold tracking-wider text-secondary-foreground">
                   {o.code}
                 </span>
-                <Link to="/coupons" className="flex items-center gap-1 text-xs font-bold text-primary-deep">
+                <Link
+                  to="/coupons"
+                  className="flex items-center gap-1 text-xs font-bold text-primary-deep"
+                >
                   APPLY <Icon name="chevron_right" className="text-base" />
                 </Link>
               </div>

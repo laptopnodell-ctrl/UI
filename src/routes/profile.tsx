@@ -9,7 +9,10 @@ export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
       { title: "My profile — Vino Tasty Hub" },
-      { name: "description", content: "Manage your Vino Tasty Hub profile, addresses, favourites and settings." },
+      {
+        name: "description",
+        content: "Manage your Vino Tasty Hub profile, addresses, favourites and settings.",
+      },
       { property: "og:title", content: "My profile — Vino Tasty Hub" },
       { property: "og:description", content: "Your account, saved addresses and preferences." },
     ],
@@ -26,7 +29,11 @@ function Profile() {
 
       <div className="px-4 pt-4">
         <div className="vino-card flex items-center gap-3 p-4">
-          <img src={img.avatar} alt="Your profile photo" className="size-16 rounded-full object-cover" />
+          <img
+            src={img.avatar}
+            alt="Your profile photo"
+            className="size-16 rounded-full object-cover"
+          />
           <div className="flex-1">
             <p className="text-base font-extrabold text-foreground">Arjun Menon</p>
             <p className="text-xs text-muted-foreground">+91 98470 12345</p>
@@ -46,8 +53,18 @@ function Profile() {
       <section className="mt-6 px-4">
         <h2 className="text-xs font-bold uppercase text-muted-foreground">Account</h2>
         <div className="vino-card mt-2 divide-y divide-border">
-          <Row icon="favorite" label="Favourites" detail={`${favorites.length} saved`} to="/favorites" />
-          <Row icon="location_on" label="Saved addresses" detail={`${addresses.length} addresses`} to="/addresses" />
+          <Row
+            icon="favorite"
+            label="Favourites"
+            detail={`${favorites.length} saved`}
+            to="/favorites"
+          />
+          <Row
+            icon="location_on"
+            label="Saved addresses"
+            detail={`${addresses.length} addresses`}
+            to="/addresses"
+          />
           <Row icon="receipt_long" label="My orders" to="/orders" />
           <Row icon="local_offer" label="Coupons & offers" to="/coupons" />
           <Row icon="notifications" label="Notifications" to="/notifications" />
@@ -58,8 +75,16 @@ function Profile() {
         <h2 className="text-xs font-bold uppercase text-muted-foreground">Support</h2>
         <div className="vino-card mt-2 divide-y divide-border">
           <Row icon="help" label="Help & support" to="/help" />
-          <Row icon="description" label="Terms & privacy" onClick={() => toast.success("Opening policies")} />
-          <Row icon="star" label="Rate the app" onClick={() => toast.success("Thanks for the love!")} />
+          <Row
+            icon="description"
+            label="Terms & privacy"
+            onClick={() => toast.success("Opening policies")}
+          />
+          <Row
+            icon="star"
+            label="Rate the app"
+            onClick={() => toast.success("Thanks for the love!")}
+          />
         </div>
       </section>
 

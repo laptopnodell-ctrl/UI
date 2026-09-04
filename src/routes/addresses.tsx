@@ -7,7 +7,10 @@ export const Route = createFileRoute("/addresses")({
   head: () => ({
     meta: [
       { title: "Delivery address — Vino Tasty Hub" },
-      { name: "description", content: "Choose or add a delivery address for your Vino Tasty Hub order." },
+      {
+        name: "description",
+        content: "Choose or add a delivery address for your Vino Tasty Hub order.",
+      },
       { property: "og:title", content: "Delivery address — Vino Tasty Hub" },
       { property: "og:description", content: "Manage your saved home, work and other addresses." },
     ],
@@ -18,8 +21,14 @@ export const Route = createFileRoute("/addresses")({
 const icons = { Home: "home", Work: "work", Other: "location_on" } as const;
 
 function Addresses() {
-  const { addresses, selectedAddressId, defaultAddressId, selectAddress, setDefaultAddress, removeAddress } =
-    useVino();
+  const {
+    addresses,
+    selectedAddressId,
+    defaultAddressId,
+    selectAddress,
+    setDefaultAddress,
+    removeAddress,
+  } = useVino();
 
   return (
     <Screen>
@@ -31,10 +40,7 @@ function Addresses() {
             const active = a.id === selectedAddressId;
             const isDefault = a.id === defaultAddressId;
             return (
-              <article
-                key={a.id}
-                className={`vino-card p-4 ${active ? "border-primary" : ""}`}
-              >
+              <article key={a.id} className={`vino-card p-4 ${active ? "border-primary" : ""}`}>
                 <button
                   type="button"
                   onClick={() => selectAddress(a.id)}
@@ -67,10 +73,7 @@ function Addresses() {
                   />
                 </button>
                 <div className="mt-3 flex gap-4 border-t border-border pt-3">
-                  <Link
-                    to="/addresses/new"
-                    className="text-xs font-bold text-primary-deep"
-                  >
+                  <Link to="/addresses/new" className="text-xs font-bold text-primary-deep">
                     EDIT
                   </Link>
                   {isDefault ? null : (
@@ -101,7 +104,6 @@ function Addresses() {
           })}
         </div>
       ) : (
-
         <EmptyState
           icon="location_off"
           title="No saved addresses"

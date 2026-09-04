@@ -9,9 +9,15 @@ export const Route = createFileRoute("/payment")({
   head: () => ({
     meta: [
       { title: "Payment — Vino Tasty Hub" },
-      { name: "description", content: "Pay by UPI, card, wallet or cash on delivery for your order." },
+      {
+        name: "description",
+        content: "Pay by UPI, card, wallet or cash on delivery for your order.",
+      },
       { property: "og:title", content: "Payment — Vino Tasty Hub" },
-      { property: "og:description", content: "Secure payment options for your Vino Tasty Hub order." },
+      {
+        property: "og:description",
+        content: "Secure payment options for your Vino Tasty Hub order.",
+      },
     ],
   }),
   component: Payment,
@@ -90,7 +96,9 @@ function Payment() {
               type="button"
               onClick={() => setMethod(m.id)}
               className={`vino-card flex items-center gap-4 p-4 text-left cursor-pointer transition-all active:scale-[0.99] ${
-                active ? "border-primary shadow-sm bg-secondary/30" : "border-border/80 hover:border-primary/40"
+                active
+                  ? "border-primary shadow-sm bg-secondary/30"
+                  : "border-border/80 hover:border-primary/40"
               }`}
             >
               <div

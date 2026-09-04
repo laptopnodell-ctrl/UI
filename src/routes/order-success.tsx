@@ -5,7 +5,10 @@ export const Route = createFileRoute("/order-success")({
   head: () => ({
     meta: [
       { title: "Order confirmed — Vino Tasty Hub" },
-      { name: "description", content: "Your Vino Tasty Hub order is confirmed and being prepared." },
+      {
+        name: "description",
+        content: "Your Vino Tasty Hub order is confirmed and being prepared.",
+      },
       { property: "og:title", content: "Order confirmed — Vino Tasty Hub" },
       { property: "og:description", content: "Track your order from kitchen to doorstep." },
     ],
@@ -22,8 +25,8 @@ function OrderSuccess() {
         </span>
         <h1 className="mt-6 text-2xl font-extrabold text-foreground">Order confirmed!</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Order <span className="font-bold text-foreground">#VH1045</span> is with our kitchen. We'll
-          have it at your door in about 30 minutes.
+          Order <span className="font-bold text-foreground">#VH1045</span> is with our kitchen.
+          We'll have it at your door in about 30 minutes.
         </p>
         <div className="mt-8 flex w-full flex-col gap-3">
           <Link to="/track/$id" params={{ id: "VH1045" }} className="vino-cta vino-cta-press">

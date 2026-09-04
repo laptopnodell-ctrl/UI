@@ -23,7 +23,10 @@ export const Route = createFileRoute("/category/$key")({
     return {
       meta: [
         { title: `${meta.title} menu — Vino Tasty Hub` },
-        { name: "description", content: `${meta.subtitle}. Order from the Vino Tasty Hub ${meta.title.toLowerCase()} menu.` },
+        {
+          name: "description",
+          content: `${meta.subtitle}. Order from the Vino Tasty Hub ${meta.title.toLowerCase()} menu.`,
+        },
         { property: "og:title", content: `${meta.title} menu — Vino Tasty Hub` },
         { property: "og:description", content: meta.subtitle },
         ...(cat

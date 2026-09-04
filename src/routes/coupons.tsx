@@ -66,10 +66,7 @@ function Coupons() {
           const active = couponCode === c.code;
           const eligible = bill.itemTotal >= c.minOrder;
           return (
-            <article
-              key={c.code}
-              className={`vino-card p-4 ${active ? "border-primary" : ""}`}
-            >
+            <article key={c.code} className={`vino-card p-4 ${active ? "border-primary" : ""}`}>
               <div className="flex items-center justify-between">
                 <span className="rounded-lg border border-dashed border-primary bg-secondary px-2.5 py-1 text-xs font-extrabold tracking-wider text-secondary-foreground">
                   {c.code}

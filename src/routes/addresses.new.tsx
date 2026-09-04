@@ -40,7 +40,8 @@ function NewAddress() {
   });
 
   const set = (k: keyof typeof form, v: string) => setForm((f) => ({ ...f, [k]: v }));
-  const valid = form.line1 && form.line2 && form.pin.length === 6 && form.name && form.phone.length >= 10;
+  const valid =
+    form.line1 && form.line2 && form.pin.length === 6 && form.name && form.phone.length >= 10;
 
   const fields: { key: keyof typeof form; label: string; placeholder: string }[] = [
     { key: "line1", label: "House / Flat number", placeholder: "12B, Palm Grove Apartments" },
@@ -95,7 +96,10 @@ function NewAddress() {
             <input
               value={form[f.key]}
               onChange={(e) =>
-                set(f.key, f.key === "pin" ? e.target.value.replace(/\D/g, "").slice(0, 6) : e.target.value)
+                set(
+                  f.key,
+                  f.key === "pin" ? e.target.value.replace(/\D/g, "").slice(0, 6) : e.target.value,
+                )
               }
               placeholder={f.placeholder}
               className="vino-card mt-1.5 w-full px-4 py-3 text-sm font-semibold outline-none placeholder:font-normal placeholder:text-muted-foreground focus:border-primary"

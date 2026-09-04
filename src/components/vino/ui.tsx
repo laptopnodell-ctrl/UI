@@ -330,4 +330,3 @@ export function BrandHeading({
     </div>
   );
 }
-

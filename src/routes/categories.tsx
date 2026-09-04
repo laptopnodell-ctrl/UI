@@ -62,9 +62,7 @@ function Categories() {
   ];
 
   const filteredCategories =
-    activeFilter === "All"
-      ? categories
-      : categories.filter((c) => c.key === activeFilter);
+    activeFilter === "All" ? categories : categories.filter((c) => c.key === activeFilter);
 
   const trendingProducts = products.filter((p) =>
     ["chicken-biryani", "masala-chai", "black-forest-cake"].includes(p.id),

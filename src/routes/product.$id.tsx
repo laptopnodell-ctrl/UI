@@ -63,7 +63,9 @@ function ProductDetails() {
     .reduce((s, a) => s + a.price, 0);
   const unitPrice = product.price + variantDelta + addonTotal;
 
-  const similar = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 5);
+  const similar = products
+    .filter((p) => p.category === product.category && p.id !== product.id)
+    .slice(0, 5);
 
   return (
     <Screen>
@@ -124,7 +126,9 @@ function ProductDetails() {
           <div className="inline-flex items-center gap-1 rounded-full bg-secondary px-2.5 py-1 text-xs font-bold text-secondary-foreground">
             <Icon name="star" filled className="text-sm text-primary-deep" />
             <span>{product.rating.toFixed(1)}</span>
-            <span className="text-[11px] font-normal text-muted-foreground">({product.reviews})</span>
+            <span className="text-[11px] font-normal text-muted-foreground">
+              ({product.reviews})
+            </span>
           </div>
           <span className="text-xs text-muted-foreground">•</span>
           <span className="text-xs font-semibold text-muted-foreground">{product.sub}</span>
@@ -163,7 +167,9 @@ function ProductDetails() {
         {product.variants ? (
           <section className="mt-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold text-foreground uppercase tracking-wider">Choose size</h2>
+              <h2 className="text-sm font-bold text-foreground uppercase tracking-wider">
+                Choose size
+              </h2>
               <span className="text-[11px] font-semibold text-muted-foreground">Required</span>
             </div>
             <div className="mt-2.5 flex flex-col gap-2">
@@ -201,7 +207,9 @@ function ProductDetails() {
         {product.addons ? (
           <section className="mt-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold text-foreground uppercase tracking-wider">Add-ons</h2>
+              <h2 className="text-sm font-bold text-foreground uppercase tracking-wider">
+                Add-ons
+              </h2>
               <span className="text-[11px] font-semibold text-muted-foreground">Optional</span>
             </div>
             <div className="mt-2.5 flex flex-col gap-2">
@@ -277,7 +285,13 @@ function ProductDetails() {
           disabled={product.unavailable}
           className="vino-cta vino-cta-press disabled:opacity-50"
           onClick={() => {
-            addToCart({ productId: product.id, qty, addons, unitPrice, ...(variant ? { variant } : {}) });
+            addToCart({
+              productId: product.id,
+              qty,
+              addons,
+              unitPrice,
+              ...(variant ? { variant } : {}),
+            });
             toast.success(`${product.name} added to cart`);
             navigate({ to: "/cart" });
           }}

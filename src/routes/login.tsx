@@ -28,7 +28,11 @@ function Login() {
     <div className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-background px-6 pt-12 pb-10">
       {/* Centered Brand & Header Block */}
       <div className="flex flex-col items-center text-center">
-        <img src={img.logo} alt="Vino Tasty Hub" className="h-16 w-auto object-contain mix-blend-multiply" />
+        <img
+          src={img.logo}
+          alt="Vino Tasty Hub"
+          className="h-16 w-auto object-contain mix-blend-multiply"
+        />
         <h1 className="mt-6 text-2xl font-extrabold tracking-tight text-foreground">
           Welcome to Vino Tasty Hub
         </h1>
@@ -76,7 +80,10 @@ function Login() {
         Google
       </button>
 
-      <Link to="/home" className="mt-8 text-center text-sm font-bold text-primary-deep hover:underline">
+      <Link
+        to="/home"
+        className="mt-8 text-center text-sm font-bold text-primary-deep hover:underline"
+      >
         Continue as guest
       </Link>
 

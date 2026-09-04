@@ -67,7 +67,9 @@ function Cart() {
                   <p className="mt-0.5 text-[11px] text-muted-foreground">Size: {line.variant}</p>
                 ) : null}
                 {line.addons.length ? (
-                  <p className="text-[11px] text-muted-foreground">Add-ons: {line.addons.join(", ")}</p>
+                  <p className="text-[11px] text-muted-foreground">
+                    Add-ons: {line.addons.join(", ")}
+                  </p>
                 ) : null}
                 <Link
                   to="/product/$id"

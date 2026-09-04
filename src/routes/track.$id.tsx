@@ -10,7 +10,10 @@ export const Route = createFileRoute("/track/$id")({
   head: ({ params }) => ({
     meta: [
       { title: `Tracking order ${params.id} — Vino Tasty Hub` },
-      { name: "description", content: "Live status of your Vino Tasty Hub delivery, rider and ETA." },
+      {
+        name: "description",
+        content: "Live status of your Vino Tasty Hub delivery, rider and ETA.",
+      },
       { property: "og:title", content: `Tracking order ${params.id} — Vino Tasty Hub` },
       { property: "og:description", content: "Follow your food from the kitchen to your door." },
     ],
@@ -92,9 +95,16 @@ function Track() {
           </div>
         ) : (
           <div className="relative overflow-hidden rounded-3xl shadow-sm">
-            <img src={img.deliveryMap} alt="Live delivery map" className="h-48 w-full object-cover" />
+            <img
+              src={img.deliveryMap}
+              alt="Live delivery map"
+              className="h-48 w-full object-cover"
+            />
             <span className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-card/95 backdrop-blur-md px-4 py-1.5 text-xs font-bold text-foreground shadow-xs border border-border/60">
-              <Icon name="delivery_dining" className="mr-1 align-middle text-base text-primary-deep" />
+              <Icon
+                name="delivery_dining"
+                className="mr-1 align-middle text-base text-primary-deep"
+              />
               {stage >= 2 ? "Rider on the way · 1.2 km" : "Restaurant preparing items"}
             </span>
           </div>
@@ -105,7 +115,11 @@ function Track() {
       {!isCancelled && stage >= 1 && (
         <div className="px-4 pt-4">
           <div className="vino-card flex items-center gap-3 p-4">
-            <img src={img.riderPhoto} alt="Delivery partner" className="size-12 rounded-full object-cover" />
+            <img
+              src={img.riderPhoto}
+              alt="Delivery partner"
+              className="size-12 rounded-full object-cover"
+            />
             <div className="flex-1 min-w-0">
               <p className="text-sm font-bold text-foreground truncate">
                 {stage >= 2 ? "Rahul is on the way" : "Kitchen is preparing your order"}

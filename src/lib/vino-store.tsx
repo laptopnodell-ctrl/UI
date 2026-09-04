@@ -130,7 +130,15 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
     if (!hydrated) return;
     localStorage.setItem(
       KEY,
-      JSON.stringify({ cart, favorites, addresses, selectedAddressId, couponCode, instructions, orders }),
+      JSON.stringify({
+        cart,
+        favorites,
+        addresses,
+        selectedAddressId,
+        couponCode,
+        instructions,
+        orders,
+      }),
     );
   }, [hydrated, cart, favorites, addresses, selectedAddressId, couponCode, instructions, orders]);
 
@@ -159,7 +167,9 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
 
   const setQty = useCallback((key: string, qty: number) => {
     setCart((prev) =>
-      qty <= 0 ? prev.filter((l) => l.key !== key) : prev.map((l) => (l.key === key ? { ...l, qty } : l)),
+      qty <= 0
+        ? prev.filter((l) => l.key !== key)
+        : prev.map((l) => (l.key === key ? { ...l, qty } : l)),
     );
   }, []);
 
@@ -196,7 +206,6 @@ export function VinoStoreProvider({ children }: { children: ReactNode }) {
       return null;
     });
   }, []);
-
 
   const coupon = useMemo(() => coupons.find((c) => c.code === couponCode) ?? null, [couponCode]);
 

@@ -7,7 +7,10 @@ export const Route = createFileRoute("/help")({
   head: () => ({
     meta: [
       { title: "Help & support — Vino Tasty Hub" },
-      { name: "description", content: "Get help with orders, refunds and delivery from Vino Tasty Hub support." },
+      {
+        name: "description",
+        content: "Get help with orders, refunds and delivery from Vino Tasty Hub support.",
+      },
       { property: "og:title", content: "Help & support — Vino Tasty Hub" },
       { property: "og:description", content: "FAQs, chat and call support for your order." },
     ],

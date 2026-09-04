@@ -20,7 +20,8 @@ export const Route = createFileRoute("/checkout")({
 });
 
 function Checkout() {
-  const { cart, addresses, selectedAddressId, bill, coupon, instructions, setInstructions } = useVino();
+  const { cart, addresses, selectedAddressId, bill, coupon, instructions, setInstructions } =
+    useVino();
   const address = addresses.find((a) => a.id === selectedAddressId) ?? addresses[0];
 
   if (!cart.length) {
@@ -49,9 +50,13 @@ function Checkout() {
             <Icon name="location_on" className="text-lg" />
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-bold text-foreground">{address?.label ?? "Add address"}</span>
+            <span className="block text-sm font-bold text-foreground">
+              {address?.label ?? "Add address"}
+            </span>
             <span className="block text-xs text-muted-foreground">
-              {address ? `${address.line1}, ${address.line2}, ${address.city} ${address.pin}` : "Tap to add a delivery address"}
+              {address
+                ? `${address.line1}, ${address.line2}, ${address.city} ${address.pin}`
+                : "Tap to add a delivery address"}
             </span>
           </span>
           <span className="text-xs font-bold text-primary-deep">CHANGE</span>
@@ -74,7 +79,9 @@ function Checkout() {
                     {l.variant ? ` · ${l.variant}` : ""}
                   </p>
                 </div>
-                <span className="text-sm font-bold text-foreground">{inr(l.unitPrice * l.qty)}</span>
+                <span className="text-sm font-bold text-foreground">
+                  {inr(l.unitPrice * l.qty)}
+                </span>
               </div>
             );
           })}

@@ -44,16 +44,8 @@ function PremiumMap({ caption }: { caption: string }) {
         <rect width="400" height="220" fill="#f5ede3" />
 
         {/* Soft Parks / Green Accents */}
-        <path
-          d="M 10 20 Q 50 10 90 35 T 140 70 L 110 110 L 20 80 Z"
-          fill="#e8eedd"
-          opacity="0.8"
-        />
-        <path
-          d="M 280 130 Q 330 110 380 140 L 390 200 L 290 210 Z"
-          fill="#e8eedd"
-          opacity="0.75"
-        />
+        <path d="M 10 20 Q 50 10 90 35 T 140 70 L 110 110 L 20 80 Z" fill="#e8eedd" opacity="0.8" />
+        <path d="M 280 130 Q 330 110 380 140 L 390 200 L 290 210 Z" fill="#e8eedd" opacity="0.75" />
 
         {/* Major & Minor Soft Roads */}
         <path
@@ -189,10 +181,7 @@ function LocationScreen() {
   };
 
   const save = () => {
-    const activeLabel =
-      selectedLabel === "Other" && customLabel.trim()
-        ? "Other"
-        : selectedLabel;
+    const activeLabel = selectedLabel === "Other" && customLabel.trim() ? "Other" : selectedLabel;
 
     const formattedAddress = [
       form.houseOrBuilding,
@@ -312,13 +301,9 @@ function LocationScreen() {
               <p className="text-[10px] font-extrabold uppercase tracking-wider text-muted-foreground">
                 SELECTED LOCATION
               </p>
-              <p className="truncate text-sm font-bold text-foreground">
-                {selectedMain}
-              </p>
+              <p className="truncate text-sm font-bold text-foreground">{selectedMain}</p>
               {selectedSub ? (
-                <p className="truncate text-xs text-muted-foreground mt-0.5">
-                  {selectedSub}
-                </p>
+                <p className="truncate text-xs text-muted-foreground mt-0.5">{selectedSub}</p>
               ) : null}
             </div>
           </div>
@@ -333,9 +318,7 @@ function LocationScreen() {
 
         {/* 5. Address Details Form */}
         <div className="pt-2">
-          <h2 className="text-[15px] font-bold text-foreground mb-2.5">
-            Address Details
-          </h2>
+          <h2 className="text-[15px] font-bold text-foreground mb-2.5">Address Details</h2>
 
           <div className="space-y-2.5">
             {/* House / Flat / Building */}
@@ -474,4 +457,3 @@ function LocationScreen() {
     </Screen>
   );
 }
-
