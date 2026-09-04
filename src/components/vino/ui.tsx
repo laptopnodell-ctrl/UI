@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { img } from "@/lib/vino-images";
 
 export function Icon({
   name,
@@ -40,34 +41,49 @@ export function TopBar({
   back,
   right,
   sticky = true,
+  showLogo = true,
 }: {
   title: string;
   subtitle?: string;
   back?: string;
   right?: ReactNode;
   sticky?: boolean;
+  showLogo?: boolean;
 }) {
   return (
     <header
-      className={`${sticky ? "sticky top-0 z-30" : ""} vino-surface-sticky border-b border-border/60`}
+      className={`${sticky ? "sticky top-0 z-30" : ""} vino-surface-sticky border-b border-border/60 h-[60px] flex items-center px-4`}
     >
-      <div className="flex items-center gap-2 px-4 py-3">
-        {back ? (
-          <Link
-            to={back}
-            aria-label="Go back"
-            className="grid size-9 place-items-center rounded-full bg-muted text-primary-deep"
-          >
-            <Icon name="arrow_back" className="text-xl" />
-          </Link>
-        ) : null}
-        <div className="min-w-0 flex-1">
-          <h1 className="truncate text-lg font-bold text-foreground">{title}</h1>
-          {subtitle ? (
-            <p className="truncate text-xs text-muted-foreground">{subtitle}</p>
+      <div className="flex w-full items-center justify-between gap-2.5">
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+          {back ? (
+            <Link
+              to={back}
+              aria-label="Go back"
+              className="grid size-9 shrink-0 place-items-center rounded-full bg-card border border-border/80 text-foreground shadow-2xs hover:bg-secondary transition-all active:scale-95"
+            >
+              <Icon name="arrow_back" className="text-xl" />
+            </Link>
           ) : null}
+          {showLogo ? (
+            <img
+              src={img.logo}
+              alt="Vino Tasty Hub"
+              className="h-8 w-auto object-contain mix-blend-multiply shrink-0"
+            />
+          ) : null}
+          <div className="min-w-0 flex-1">
+            <h1 className="truncate text-lg font-bold text-foreground tracking-tight font-display leading-tight">
+              {title}
+            </h1>
+            {subtitle ? (
+              <p className="truncate text-xs font-medium text-muted-foreground leading-tight mt-0.5">
+                {subtitle}
+              </p>
+            ) : null}
+          </div>
         </div>
-        {right}
+        {right ? <div className="shrink-0">{right}</div> : null}
       </div>
     </header>
   );

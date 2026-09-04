@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { EmptyState, Icon, Screen, TopBar } from "@/components/vino/ui";
 import { getProduct, inr } from "@/lib/vino-data";
 import { useVino } from "@/lib/vino-store";
-import { BillDetails } from "./cart";
+import { BillDetails } from "@/components/vino/BillDetails";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({

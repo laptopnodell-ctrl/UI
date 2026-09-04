@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Icon, Screen, StickyBar } from "@/components/vino/ui";
+import { Icon, Screen, StickyBar, TopBar } from "@/components/vino/ui";
 import { inr } from "@/lib/vino-data";
 import { useVino } from "@/lib/vino-store";
 
@@ -70,22 +70,7 @@ function Payment() {
 
   return (
     <Screen>
-      {/* Header */}
-      <header className="sticky top-0 z-30 vino-surface-sticky border-b border-border/50">
-        <div className="flex items-center justify-between px-4 py-3.5 relative">
-          <Link
-            to="/checkout"
-            aria-label="Go back"
-            className="grid size-10 place-items-center rounded-full bg-card shadow-xs border border-border/60 text-foreground active:scale-95 transition-transform"
-          >
-            <Icon name="arrow_back" className="text-xl" />
-          </Link>
-          <h1 className="text-base font-bold text-foreground absolute left-1/2 -translate-x-1/2">
-            Payment Method
-          </h1>
-          <div className="w-10" />
-        </div>
-      </header>
+      <TopBar title="Payment Method" back="/checkout" />
 
       {/* Title Subheader */}
       <div className="px-4 pt-4 pb-1">

@@ -4,6 +4,7 @@ import { BottomNav } from "@/components/vino/BottomNav";
 import { ProductCard } from "@/components/vino/ProductCard";
 import { Chip, EmptyState, Icon, Screen } from "@/components/vino/ui";
 import { categories, popularSearches, products, recentSearches } from "@/lib/vino-data";
+import { img } from "@/lib/vino-images";
 
 export const Route = createFileRoute("/search")({
   head: () => ({
@@ -37,16 +38,21 @@ function Search() {
 
   return (
     <Screen>
-      <header className="vino-surface-sticky sticky top-0 z-30 border-b border-border/60 px-4 py-3">
-        <div className="flex items-center gap-2">
+      <header className="vino-surface-sticky sticky top-0 z-30 border-b border-border/60 h-[60px] flex items-center px-4">
+        <div className="flex w-full items-center gap-2.5">
           <Link
             to="/home"
             aria-label="Go back"
-            className="grid size-9 place-items-center rounded-full bg-muted text-primary-deep"
+            className="grid size-9 shrink-0 place-items-center rounded-full bg-card border border-border/80 text-foreground shadow-2xs hover:bg-secondary transition-all active:scale-95"
           >
             <Icon name="arrow_back" className="text-xl" />
           </Link>
-          <div className="vino-card flex flex-1 items-center gap-2 px-3 py-2">
+          <img
+            src={img.logo}
+            alt="Vino"
+            className="h-8 w-auto object-contain mix-blend-multiply shrink-0"
+          />
+          <div className="vino-card flex flex-1 items-center gap-2 px-3 py-1.5 rounded-[14px]">
             <Icon name="search" className="text-lg text-primary-deep" />
             <input
               autoFocus

@@ -37,7 +37,7 @@ function Splash() {
       <img
         src={img.logo}
         alt="Vino Tasty Hub"
-        className="h-20 w-auto animate-in fade-in zoom-in duration-700"
+        className="h-20 w-auto object-contain mix-blend-multiply animate-in fade-in zoom-in duration-700"
       />
       <p className="mt-4 text-sm font-semibold tracking-[0.18em] text-primary-deep uppercase">
         Restaurant • Bakery • Tea

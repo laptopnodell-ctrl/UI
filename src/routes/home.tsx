@@ -35,10 +35,10 @@ function Home() {
 
   return (
     <Screen>
-      <header className="vino-surface-sticky sticky top-0 z-30 border-b border-border/60">
-        <div className="flex items-center justify-between px-4 py-3">
+      <header className="vino-surface-sticky sticky top-0 z-30 border-b border-border/60 h-[60px] flex items-center px-4">
+        <div className="flex w-full items-center justify-between">
           <Link to="/home" className="flex items-center gap-2.5">
-            <img src={img.logo} alt="Vino Tasty Hub" className="h-10 w-auto object-contain" />
+            <img src={img.logo} alt="Vino Tasty Hub" className="h-8 w-auto object-contain mix-blend-multiply shrink-0" />
             <BrandHeading size="md" />
           </Link>
           <div className="flex items-center gap-1">

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { BottomNav } from "@/components/vino/BottomNav";
 import { Icon, Screen } from "@/components/vino/ui";
 import { categories, inr, products } from "@/lib/vino-data";
+import { img } from "@/lib/vino-images";
 
 export const Route = createFileRoute("/categories")({
   head: () => ({
@@ -50,7 +51,7 @@ const subCategoryIcons: Record<string, string> = {
   "Cold Drinks": "water_drop",
 };
 
-export function Categories() {
+function Categories() {
   const [activeFilter, setActiveFilter] = useState<string>("All");
 
   const filterOptions = [
@@ -72,18 +73,27 @@ export function Categories() {
   return (
     <Screen>
       {/* Sticky Header */}
-      <header className="sticky top-0 z-30 vino-surface-sticky border-b border-border/50 px-4 py-3.5">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">Explore Vino</h1>
-            <p className="mt-0.5 text-xs font-semibold text-muted-foreground">
-              What are you craving today?
-            </p>
+      <header className="sticky top-0 z-30 vino-surface-sticky border-b border-border/60 h-[60px] flex items-center px-4">
+        <div className="flex w-full items-center justify-between gap-2.5">
+          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+            <img
+              src={img.logo}
+              alt="Vino Tasty Hub"
+              className="h-8 w-auto object-contain mix-blend-multiply shrink-0"
+            />
+            <div className="min-w-0">
+              <h1 className="truncate text-lg font-bold text-foreground tracking-tight font-display leading-tight">
+                Explore Vino
+              </h1>
+              <p className="truncate text-xs font-medium text-muted-foreground leading-tight mt-0.5">
+                What are you craving today?
+              </p>
+            </div>
           </div>
           <Link
             to="/search"
             aria-label="Search menu"
-            className="grid size-10 place-items-center rounded-full bg-card shadow-xs border border-border/60 text-primary-deep hover:bg-secondary transition-colors"
+            className="grid size-9 shrink-0 place-items-center rounded-full bg-card shadow-2xs border border-border/80 text-primary-deep hover:bg-secondary transition-colors active:scale-95"
           >
             <Icon name="search" className="text-xl" />
           </Link>

@@ -1,6 +1,8 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { Icon } from "@/components/vino/ui";
+import { img } from "@/lib/vino-images";
 
 export const Route = createFileRoute("/otp")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -22,8 +24,15 @@ function Otp() {
   const { phone } = Route.useSearch();
   const navigate = useNavigate();
   const [digits, setDigits] = useState(["", "", "", ""]);
-  const [seconds, setSeconds] = useState(30);
+  const [seconds, setSeconds] = useState(21);
   const refs = useRef<(HTMLInputElement | null)[]>([]);
+
+  // Format phone display nicely (e.g., +91 94485 43554)
+  const formattedPhone = phone
+    ? phone.length === 10
+      ? `+91 ${phone.slice(0, 5)} ${phone.slice(5)}`
+      : `+91 ${phone}`
+    : "+91 94485 43554";
 
   useEffect(() => {
     if (seconds === 0) return;
@@ -33,73 +42,193 @@ function Otp() {
 
   const complete = digits.every((d) => d !== "");
 
-  const set = (i: number, v: string) => {
-    const clean = v.replace(/\D/g, "").slice(-1);
-    setDigits((prev) => prev.map((d, idx) => (idx === i ? clean : d)));
-    if (clean && i < 3) refs.current[i + 1]?.focus();
+  const handleDigitChange = (index: number, val: string) => {
+    // Clean numeric input
+    const clean = val.replace(/\D/g, "");
+    if (!clean) {
+      setDigits((prev) => prev.map((d, i) => (i === index ? "" : d)));
+      return;
+    }
+
+    // Support paste or single digit
+    if (clean.length > 1) {
+      const chars = clean.slice(0, 4).split("");
+      const next = [...digits];
+      chars.forEach((c, idx) => {
+        if (idx < 4) next[idx] = c;
+      });
+      setDigits(next);
+      const nextFocus = Math.min(chars.length, 3);
+      refs.current[nextFocus]?.focus();
+      return;
+    }
+
+    const nextChar = clean.slice(-1);
+    setDigits((prev) => prev.map((d, i) => (i === index ? nextChar : d)));
+    if (index < 3) {
+      refs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace") {
+      if (!digits[index] && index > 0) {
+        refs.current[index - 1]?.focus();
+      }
+    } else if (e.key === "Enter" && complete) {
+      verify();
+    }
+  };
+
+  const handleResend = () => {
+    setSeconds(21);
+    toast.success("New 4-digit code sent to your mobile number");
   };
 
   const verify = () => {
     localStorage.setItem("vino-onboarded", "1");
-    toast.success("Number verified");
+    toast.success("Number verified successfully!");
     const savedAddress = localStorage.getItem("vino_default_address");
     navigate({ to: savedAddress ? "/home" : "/location" });
   };
 
-
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-background px-6 pt-16 pb-10">
-      <h1 className="text-[26px] font-extrabold text-foreground">Verify your number</h1>
-      <p className="mt-2 text-sm text-muted-foreground">
-        We sent a 4-digit code to <span className="font-bold text-foreground">+91 {phone || "•••••"}</span>
-      </p>
+    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-background px-6 pt-8 pb-8 text-foreground selection:bg-primary/30">
+      {/* Top Bar: Back button & Centered Logo */}
+      <div className="relative flex items-center justify-between">
+        <Link
+          to="/login"
+          aria-label="Back to login"
+          className="grid size-10 place-items-center rounded-full border border-border/80 bg-card text-foreground transition-all hover:bg-secondary active:scale-95 shadow-xs"
+        >
+          <Icon name="arrow_back" className="text-xl" />
+        </Link>
 
-      <div className="mt-10 flex justify-between gap-3">
-        {digits.map((d, i) => (
-          <input
-            key={i}
-            ref={(el) => {
-              refs.current[i] = el;
-            }}
-            value={d}
-            onChange={(e) => set(i, e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Backspace" && !d && i > 0) refs.current[i - 1]?.focus();
-            }}
-            inputMode="numeric"
-            aria-label={`Digit ${i + 1}`}
-            className="vino-card h-16 w-full text-center text-2xl font-extrabold text-foreground outline-none focus:border-primary"
+        {/* Small Vino Logo */}
+        <div className="absolute left-1/2 -translate-x-1/2">
+          <img
+            src={img.logo}
+            alt="Vino Tasty Hub"
+            className="h-10 w-auto object-contain mix-blend-multiply"
           />
-        ))}
+        </div>
+
+        {/* Empty balance spacer */}
+        <div className="size-10" />
       </div>
 
-      <div className="mt-6 text-center text-sm text-muted-foreground">
-        {seconds > 0 ? (
-          <span>
-            Resend code in <span className="font-bold text-foreground">0:{String(seconds).padStart(2, "0")}</span>
+      {/* Main Heading Block */}
+      <div className="mt-6 text-center">
+        <h1 className="text-2xl font-extrabold tracking-tight text-foreground">
+          Verify your number
+        </h1>
+        <p className="mt-2.5 text-sm font-medium text-muted-foreground">
+          We sent a 4-digit code to
+        </p>
+        <div className="mt-1 flex items-center justify-center gap-2">
+          <span className="text-sm font-bold text-foreground tracking-wide">
+            {formattedPhone}
           </span>
-        ) : (
-          <button
-            type="button"
-            onClick={() => {
-              setSeconds(30);
-              toast.success("New code sent");
-            }}
-            className="font-bold text-primary-deep"
+          <Link
+            to="/login"
+            className="text-xs font-bold text-primary-deep hover:underline transition-colors ml-0.5"
           >
-            Resend code
-          </button>
-        )}
+            Edit
+          </Link>
+        </div>
       </div>
 
+      {/* OTP Input Section */}
+      <div className="mt-7 flex justify-center gap-3.5">
+        {digits.map((digit, i) => {
+          const isFilled = digit !== "";
+          return (
+            <input
+              key={i}
+              ref={(el) => {
+                refs.current[i] = el;
+              }}
+              type="text"
+              inputMode="numeric"
+              maxLength={1}
+              value={digit}
+              autoFocus={i === 0}
+              aria-label={`Digit ${i + 1}`}
+              onChange={(e) => handleDigitChange(i, e.target.value)}
+              onKeyDown={(e) => handleKeyDown(i, e)}
+              className={`h-15 w-14 rounded-[18px] border text-center text-2xl font-extrabold transition-all outline-none shadow-xs ${
+                isFilled
+                  ? "border-primary/80 bg-card text-foreground"
+                  : "border-border/90 bg-card text-foreground"
+              } focus:border-primary focus:bg-amber-50/40 focus:ring-4 focus:ring-primary/15`}
+            />
+          );
+        })}
+      </div>
+
+      {/* Resend Section */}
+      <div className="mt-5 text-center">
+        <p className="text-xs font-medium text-muted-foreground">
+          Didn’t receive the code?
+        </p>
+        <div className="mt-1.5 min-h-6 flex items-center justify-center">
+          {seconds > 0 ? (
+            <p className="text-xs font-semibold text-muted-foreground">
+              Resend in{" "}
+              <span className="font-bold text-foreground">
+                00:{String(seconds).padStart(2, "0")}
+              </span>
+            </p>
+          ) : (
+            <button
+              type="button"
+              onClick={handleResend}
+              className="text-xs font-bold text-primary-deep hover:underline transition-all active:scale-95"
+            >
+              Resend Code
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Security / Trust Card */}
+      <div className="mt-8 rounded-[18px] border border-border/80 bg-card p-4 shadow-xs">
+        <div className="flex items-start gap-3">
+          <div className="grid size-9 shrink-0 place-items-center rounded-full bg-secondary text-primary-deep">
+            <Icon name="shield" filled className="text-lg text-primary-deep" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-sm font-bold text-foreground">Secure sign in</h2>
+            <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">
+              Your mobile number helps us keep your orders, addresses and account secure.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Flexible spacer to push CTA down */}
+      <div className="flex-1 min-h-6" />
+
+      {/* Primary CTA */}
       <button
         type="button"
         disabled={!complete}
         onClick={verify}
-        className="vino-cta vino-cta-press mt-8 disabled:opacity-50"
+        className={`vino-cta-press flex h-14 w-full items-center justify-center gap-2 rounded-[18px] font-extrabold text-[15px] tracking-wide transition-all shadow-md ${
+          complete
+            ? "bg-primary text-foreground shadow-primary/20 hover:brightness-105 active:scale-[0.98]"
+            : "bg-primary/40 text-foreground/50 cursor-not-allowed shadow-none"
+        }`}
       >
-        VERIFY & CONTINUE
+        <span>VERIFY & CONTINUE</span>
+        <Icon name="arrow_forward" className="text-lg" />
       </button>
+
+      {/* Footer */}
+      <p className="mt-3 text-center text-[11px] font-medium text-muted-foreground">
+        By continuing, you agree to our Terms & Privacy Policy.
+      </p>
     </div>
   );
 }
+
