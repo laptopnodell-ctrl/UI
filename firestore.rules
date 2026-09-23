@@ -1,0 +1,13 @@
+rules_version = '2';
+
+// Firestore security rules — vino-app-18f96
+// The customer app and delivery app currently use the Realtime Database
+// (database.rules.json). These Firestore rules are locked down by default;
+// loosen them only if/when you start using Firestore.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

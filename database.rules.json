@@ -1,0 +1,37 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "menu": {
+      ".read": true,
+      ".write": false
+    },
+
+    "orders": {
+      ".read": "auth != null",
+      "$orderId": {
+        ".read": "auth != null",
+        ".write": "auth != null && (!data.exists() || !newData.exists())",
+        ".validate": "newData.hasChildren(['items', 'total', 'status', 'createdAt'])",
+        "status": {
+          ".validate": "newData.isString() && newData.val().matches(/^(placed|confirmed|preparing|out_for_delivery|delivered|cancelled)$/)"
+        }
+      }
+    },
+
+    "deliveryLocations": {
+      "$orderId": {
+        ".read": "auth != null",
+        ".write": "auth != null && newData.child('deliveryPartnerId').val() === auth.uid"
+      }
+    },
+
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    }
+  }
+}
